@@ -1,79 +1,58 @@
 #include <iostream> // std::cout
 #include <fstream> // std::ifstream
 #include <vector>
-typedef std::vector <float> coordenadas;
+#include <assert.h>
+#include "Vertex.hpp"
+#include "Polygon.hpp"
 
-int main()
+int main(void)
 {
 	
-	std::ifstream fe("data.dat", std::ifstream::in);//fe => "fichero entrada" abrir fichero para lectura
+	std::ifstream fe("info_data.dat");//fe => "fichero entrada" abrir fichero para lectura
 	
 	//estrucura de lectura
 	// nº vertices espacio nº poligonos (primera linea)
 	//coordenadas a espacio b espacio c (segunda en adelante) 
-	int vertices;
-	int poligonos;
-	float a, b, c, d, e; //a b c son las coordenadas
 	
-	coordenadas xyz; //vector de vertices xyz
-	coordenadas pols; //vector de coordenadas xyz
+        if(!fe.is_open()) { 
+            std::cout << "-!- error abriendo el fichero -!-" << std::endl; 
+            return 1;
+        } 
 
-        if( !fe ) { std::cout << "-!- error -!-" << std::endl; } 
-
-	fe >> vertices >> poligonos;
+	int nvertices;
+	int npoligonos;
+	fe >> nvertices >> npoligonos;
 	
-	std::cout << "vertices polignos" << std::endl;	
-	std::cout << vertices << "        " << poligonos<< std::endl;
+	std::cout << "vertices poligonos" << std::endl;	
+	std::cout << nvertices << "        " << npoligonos<< std::endl;
 	std::cout << "coodenada" << std::endl;
 	std::cout << "fichero original " << std::endl;
 
-int bux=vertices, cux=poligonos;
-
-	while( !fe.eof() ) 
-	{
-		if (bux>0){		
-			fe >> a >> b >>c;
-			xyz.push_back(a);
-			xyz.push_back(b);
-			xyz.push_back(c);
-			bux--;
-		}
-		if (cux>0 && bux ==0 ){//si bux=vertices es 0 ya ha acabado de leer los vertices.	
-		//fe >> a >> b >>c>>d;
-		fe>>a;
-	
-			if ( a == 4)
-			{
-				fe >> b >> c >> d >> e;
-				pols.push_back(a);
-				pols.push_back(b);
-				pols.push_back(c);
-				pols.push_back(d);
-				pols.push_back(e);
-				std::cout<<a<<b<<c<<d<<e<<std::endl;
-			}
-			if (a == 3)	
-			{
-				fe >> b >> c >> d;
-				pols.push_back(a);
-				pols.push_back(b);
-				pols.push_back(c);
-				pols.push_back(d);				std::cout<<a<<b<<c<<d<<std::endl;
-			}
-		}
+    std::vector<Vertex*> vertexs;
+    float x, y, z;
+	for (int i = 0; i < nvertices; i++) {
+        fe >> x >> y >> z;
+        vertexs.push_back(new Vertex(x,y,z));
 	}
 
-	std::cout << "comprobación vector de vertices" << std::endl;
+    std::vector<Polygon*> polygons;
+    int nsides;
+	for (int i = 0; i < npoligonos; i++) {
+        fe >> nsides;
+        std::cout << "creating " << nsides << "-sided poly." << std::endl;
+        Polygon *p = new Polygon(nsides);
+        int vertex_id;
+        for (int j = 0; j < nsides; j++) {
+            fe >> vertex_id;
+            p->add_vertex(vertexs[vertex_id]);
+        }
+        assert(p->is_valid());
+        polygons.push_back(p);
+	}
 
-	int aux=0; //solo sirve para mostrar linias de 3, solo decorativo
-
-	for (std::vector<float>::iterator it=xyz.begin() ; it!=xyz.end() ; ++it) {
-		std::cout << *it<<" ";
-		if (aux<2) aux++;
-		else{
-			aux=0; 
-			std::cout<< std::endl;
-			}	
+	std::cout << "vector de polígonos: " << polygons.size() << " polígonos." << std::endl;
+	for (std::vector<Polygon*>::iterator it = polygons.begin(); it!=polygons.end(); ++it) {
+		std::cout << **it << std::endl;
 	}
 	std::cout << "comprobación vector de poligonos" << std::endl;
 
