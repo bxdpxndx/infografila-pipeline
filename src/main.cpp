@@ -26,7 +26,7 @@ int main(void)
 	std::cout << "vertices poligonos" << std::endl;	
 	std::cout << nvertices << "        " << npoligonos<< std::endl;
 	std::cout << "coodenada" << std::endl;
-	std::cout << "fichero original " << std::endl;
+
 
     std::vector<Vertex*> vertexs;
     float x, y, z;
@@ -39,7 +39,6 @@ int main(void)
     int nsides;
 	for (int i = 0; i < npoligonos; i++) {
         fe >> nsides;
-        std::cout << "creating " << nsides << "-sided poly." << std::endl;
         Polygon *p = new Polygon(nsides);
         int vertex_id;
         for (int j = 0; j < nsides; j++) {
@@ -53,16 +52,6 @@ int main(void)
 	std::cout << "vector de polígonos: " << polygons.size() << " polígonos." << std::endl;
 	for (std::vector<Polygon*>::iterator it = polygons.begin(); it!=polygons.end(); ++it) {
 		std::cout << **it << std::endl;
-	}
-	std::cout << "comprobación vector de poligonos" << std::endl;
-
-	aux=0;
-	for (std::vector<float>::iterator it=pols.begin() ; it!=pols.end() ; ++it) {
-		std::cout << *it<<" ";
-		if (aux==0){ aux=*it+1; }
-		if(aux>0) { aux--; }
-		if (aux==0){ aux==0;	std::cout << std::endl; }	
-			
 	}
 	fe.close(); //cerrar fichero 
 }
