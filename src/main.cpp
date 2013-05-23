@@ -34,6 +34,10 @@ int main(void)
         fe >> x >> y >> z;
         vertexs.push_back(new Vertex(x,y,z));
 	}
+	std::cout << "vector de vértices: " << vertexs.size() << " vértices." << std::endl;
+	for (std::vector<Vertex*>::iterator it = vertexs.begin(); it!=vertexs.end(); ++it) {
+		std::cout << **it << std::endl;
+	}
 
     std::vector<Polygon*> polygons;
     int nsides;
