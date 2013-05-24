@@ -1,7 +1,11 @@
 #ifndef Polygon_hpp
-#define Polyhon_hpp
+#define Polygon_hpp
 #include <vector>
 #include <ostream>
+
+#include "Vertex.hpp"
+
+class Vertex;
 
 class Polygon {
 
@@ -13,7 +17,8 @@ private:
 public:
     Polygon(int nv) : _nvertexs(nv) {};
 
-    void add_vertex(Vertex * v) {
+    void add_vertex(Vertex *v) {
+        v->add_polygon(this);
         _vertexs.push_back(v);
     }
 
@@ -25,7 +30,7 @@ public:
 
     friend std::ostream & operator<<(std::ostream &os, const Polygon & p)
     {
-        os << p.nvertexs() << "-sided polygon";
+        os << p.nvertexs() << "-sided polygon" << std::endl;
         return os;
     }
 };

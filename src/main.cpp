@@ -14,10 +14,10 @@ int main(void)
 	// nº vertices espacio nº poligonos (primera linea)
 	//coordenadas a espacio b espacio c (segunda en adelante) 
 	
-        if(!fe.is_open()) { 
-            std::cout << "-!- error abriendo el fichero -!-" << std::endl; 
-            return 1;
-        } 
+    if(!fe.is_open()) { 
+        std::cout << "-!- error abriendo el fichero -!-" << std::endl; 
+        return 1;
+    } 
 
 	int nvertices;
 	int npoligonos;
@@ -47,7 +47,7 @@ int main(void)
         int vertex_id;
         for (int j = 0; j < nsides; j++) {
             fe >> vertex_id;
-            p->add_vertex(vertexs[vertex_id]);
+            p->add_vertex(vertexs[vertex_id+1]);
         }
         assert(p->is_valid());
         polygons.push_back(p);
