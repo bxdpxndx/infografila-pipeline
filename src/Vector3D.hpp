@@ -2,7 +2,12 @@
 #define Vector3D_hpp
 #include "Point3D.hpp"
 
-class Vector3D : public Point3D {};
+class Vector3D : public Point3D {
+
+public: 
+    Vector3D(float x_in, float y_in, float z_in) : Point3D(x_in, y_in, z_in) {};
+
+};
 
 #endif // Vector3D_hpp
 

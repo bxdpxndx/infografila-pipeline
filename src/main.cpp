@@ -1,9 +1,11 @@
 #include <iostream> // std::cout
 #include <fstream> // std::ifstream
 #include <vector>
+
 #include <assert.h>
-#include "Vertex.hpp"
+#include "Vertex3D.hpp"
 #include "Polygon.hpp"
+#include "Object.hpp"
 
 int main(void)
 {
@@ -22,24 +24,17 @@ int main(void)
 	int nvertices;
 	int npoligonos;
 	fe >> nvertices >> npoligonos;
-	
-	std::cout << "vertices poligonos" << std::endl;	
-	std::cout << nvertices << "        " << npoligonos<< std::endl;
-	std::cout << "coodenada" << std::endl;
 
+    std::vector<Vertex3D*> vertexs;
 
-    std::vector<Vertex*> vertexs;
     float x, y, z;
 	for (int i = 0; i < nvertices; i++) {
         fe >> x >> y >> z;
-        vertexs.push_back(new Vertex(x,y,z));
+        vertexs.push_back(new Vertex3D(x,y,z));
 	}
-	std::cout << "vector de vértices: " << vertexs.size() << " vértices." << std::endl;
-	for (std::vector<Vertex*>::iterator it = vertexs.begin(); it!=vertexs.end(); ++it) {
-		std::cout << **it << std::endl;
-	}
+	std::cout << "Cargados " << nvertices << " vértices." << std::endl;
 
-    std::vector<Polygon*> polygons;
+    Object object;
     int nsides;
 	for (int i = 0; i < npoligonos; i++) {
         fe >> nsides;
@@ -50,12 +45,12 @@ int main(void)
             p->add_vertex(vertexs[vertex_id+1]);
         }
         assert(p->is_valid());
-        polygons.push_back(p);
+        object.addPolygon(p);
 	}
+    std::cout << "Cargados " << npoligonos << " polígonos" << std::endl;
 
-	std::cout << "vector de polígonos: " << polygons.size() << " polígonos." << std::endl;
-	for (std::vector<Polygon*>::iterator it = polygons.begin(); it!=polygons.end(); ++it) {
-		std::cout << **it << std::endl;
-	}
+    for(auto it = vertexs.begin(); it != vertexs.end(); it++) {
+        delete *it;
+    }
 	fe.close(); //cerrar fichero 
 }

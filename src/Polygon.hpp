@@ -3,7 +3,8 @@
 #include <vector>
 #include <ostream>
 
-#include "Vertex.hpp"
+#include "Vertex3D.hpp"
+
 
 class Vertex;
 
@@ -12,13 +13,12 @@ class Polygon {
 private:
     
     const int _nvertexs;
-    std::vector<Vertex*> _vertexs;
+    std::vector<Vertex3D*> _vertexs;
 
 public:
     Polygon(int nv) : _nvertexs(nv) {};
 
-    void add_vertex(Vertex *v) {
-        v->add_polygon(this);
+    void add_vertex(Vertex3D *v) {
         _vertexs.push_back(v);
     }
 
@@ -32,6 +32,10 @@ public:
     {
         os << p.nvertexs() << "-sided polygon" << std::endl;
         return os;
+    }
+
+    void draw_wireframe() {
+        
     }
 };
 
