@@ -7,34 +7,27 @@
 #include "Polygon.hpp"
 #include "Object.hpp"
 
-int main(void)
-{
+
+
+void ReadFile(int &nvertices, int &npoligonos, std::vector<Vertex3D*> &vertexs){
 	
-	std::ifstream fe("info_data.dat");//fe => "fichero entrada" abrir fichero para lectura
-	
-	//estrucura de lectura
-	// nº vertices espacio nº poligonos (primera linea)
-	//coordenadas a espacio b espacio c (segunda en adelante) 
-	
+	std::ifstream fe("info_data.dat");
+		
     if(!fe.is_open()) { 
         std::cout << "-!- error abriendo el fichero -!-" << std::endl; 
-        return 1;
+        //return 1;
     } 
-
-	int nvertices;
-	int npoligonos;
+	
 	fe >> nvertices >> npoligonos;
-
-    std::vector<Vertex3D*> vertexs;
-
+	
     float x, y, z;
 	for (int i = 0; i < nvertices; i++) {
         fe >> x >> y >> z;
         vertexs.push_back(new Vertex3D(x,y,z));
 	}
 	std::cout << "Cargados " << nvertices << " vértices." << std::endl;
-
-    Object object;
+	
+	Object object;
     int nsides;
 	for (int i = 0; i < npoligonos; i++) {
         fe >> nsides;
@@ -49,8 +42,33 @@ int main(void)
 	}
     std::cout << "Cargados " << npoligonos << " polígonos" << std::endl;
 
-    for(auto it = vertexs.begin(); it != vertexs.end(); it++) {
-        delete *it;
-    }
+    for(std::vector<Vertex3D*>::iterator it = vertexs.begin(); it != vertexs.end(); it++) { delete *it;}
+    
+    
 	fe.close(); //cerrar fichero 
+
+	
+	
+}
+
+
+
+int main(void)
+{	
+	int nvertices;
+	int npoligonos;
+	std::vector<Vertex3D*> vertexs;
+
+	ReadFile (nvertices,npoligonos, vertexs);
+
+    float x,y,z;
+    
+   	for(std::vector<Vertex3D*>::iterator it = vertexs.begin(); it != vertexs.end(); ++it) { 	
+		std::cout << (*it)->Getx() << " " << (*it)->Gety() <<" " << (*it)->Getz()  << std::endl;
+	}
+	
+	
+  
+  
+  
 }

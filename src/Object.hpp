@@ -16,10 +16,8 @@ public:
         _polygons.push_back(p);
     }
 
-    ~Object() {
-        for(auto it = _polygons.begin(); it != _polygons.end(); it++) {
-            delete *it;
-        }
+	~Object() {
+        for(std::vector<Polygon*>::iterator it = _polygons.begin(); it != _polygons.end(); it++) { delete *it;}
     }
 };
 

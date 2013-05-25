@@ -16,6 +16,7 @@ private:
     std::vector<Vertex3D*> _vertexs;
 
 public:
+
     Polygon(int nv) : _nvertexs(nv) {};
 
     void add_vertex(Vertex3D *v) {
@@ -37,6 +38,21 @@ public:
     void draw_wireframe() {
         
     }
+/*
+    //==============================================================
+    //un triangulo tiene tres vertices. v1 v2 v3
+    //p es el vector de v1v2 y q v1v3
+    
+    void vectorPQ(){
+		float x,y,z;
+		std::cout<<"Tamaño"<<_vertexs.size()<<std::endl;
+		for(std::vector<Vertex3D*>::iterator it = _vertexs.begin(); it != _vertexs.end(); ++it) { 
+				 (*it)->getxyz(x,y,z);
+				 std::cout<< x << " " << y <<" "<< z  <<std::endl;
+			}
+		}
+    //==============================================================
+*/
 };
 
 #endif //Polygon_hpp
