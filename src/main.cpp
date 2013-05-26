@@ -60,11 +60,9 @@ int main(void)
 	std::vector<Vertex3D*> vertexs;
 
 	ReadFile (nvertices,npoligonos, vertexs);
-
-    float x,y,z;
     
    	for(std::vector<Vertex3D*>::iterator it = vertexs.begin(); it != vertexs.end(); ++it) { 	
-		std::cout << (*it)->Getx() << " " << (*it)->Gety() <<" " << (*it)->Getz()  << std::endl;
+		std::cout << (*it)->x << " " << (*it)->y <<" " << (*it)->y << std::endl;
 	}
 	
 	

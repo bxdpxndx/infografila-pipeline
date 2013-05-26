@@ -4,13 +4,16 @@
 
 class Point3D {
 
-private:
-
-    float x, y, z;
-    
 public:
+    union { 
+        struct {float x, y, z, w; };
+        float coords[4];
+    }
+        
+;
 
-    Point3D(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in) {};
+    Point3D(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in), w(1) {};
+    Point3D() : x(0), y(0), z(0), w(0) {};
     
     friend std::ostream & operator<<(std::ostream &os, const Point3D & v)
     {
@@ -18,9 +21,13 @@ public:
         return os;
     }
     
-	float Getx(){return x; std::cout<< x << " " << std::endl;}
-	float Gety(){return y; std::cout<< y << " " << std::endl;}
-	float Getz(){return z; std::cout<< z << " " << std::endl;}
+    float get(int i) {
+        return coords[i];
+    }
+
+    void set(float value, int i) {
+        coords[i] = value;
+    }
 
 };
 

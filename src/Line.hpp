@@ -1,23 +1,36 @@
 #ifndef Line_hpp
 #define Line_hpp
+
+#include <iostream>
+
 #include "Vertex3D.hpp"
+#include "Matrix.hpp"
+
 
 class Line {
-
-private:
-    Vertex3D _start, _end;
+// Sólo un par de Vértices.
 
 public:
+    Vertex3D start, end;
 
-    Vertex3D start() { return _start; };
-    Vertex3D end() { return _end; };
+    Line(Vertex3D st, Vertex3D en) : start(st), end(en) {};
 
     void flip() {
-        std::swap(_start, _end);
+        std::swap(start, end);
     }
 
-    void draw(Image & image) {
-        // TODO hehehe
+    void transform(Matrix m) {
+        start = m * start;
+        end = m * end;
+    }
+
+    bool is_vertical() {
+        return abs(end.x - start.x) < abs(end.y - start.y);
+    }
+
+    friend std::ostream & operator<<(std::ostream & os, const Line & l) {
+        os << l.start << " - " << l.end;
+        return os;
     }
 };
 

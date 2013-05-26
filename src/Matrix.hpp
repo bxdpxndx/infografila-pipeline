@@ -18,7 +18,7 @@ public:
         	return mat[ y * 4 + x ];
     	}
 
-        void setElement(const float& f, unsigned int x, unsigned int y) {
+        void setElement(float f, unsigned int x, unsigned int y) {
         	mat[ y * 4 + x ] = f;
     	}
 
@@ -35,17 +35,16 @@ public:
 		return *this;
 	}
 
-	Matrix MatrixTrans(const float& Tx, const float& Ty, const float& Tz) {
-		setElement(-Tx, 3, 0);
-		setElement(-Ty, 3, 1);
-		setElement(-Tz, 3, 2);
-        return *this;
+	void setTranslation(float Tx, float Ty, float Tz) {
+		setElement(Tx, 0, 3);
+		setElement(Ty, 1, 3);
+		setElement(Tz, 2, 3);
 	}
 
-    Matrix MatrixScale(const float& Sx, const float& Sy, const float& Sz) {
+    void setScaling(float Sx, float Sy, float Sz) {
 		setElement(Sx, 0, 0);
 		setElement(Sy, 1, 1);
-		setElement(Sz, 2, 2);        
+		setElement(Sz, 2, 2);
     }
 
 
@@ -74,13 +73,22 @@ public:
 		for(int i=0; i<4; ++i){
 			element = 0;
 			for(int j=0; j<4; ++j){
-				element += this->getElement(i,j) * v.getElement(j);
+				element += this->getElement(i,j) * v.get(j);
 			}
-			resultat.setElement(element,i);
+			resultat.set(element,i);
 		}
 		return resultat;
 	}
 
+    friend std::ostream & operator<<(std::ostream & os, const Matrix & m) {
+        for (int i = 0; i < 4; i ++) {
+            for (int j = 0; j < 4; j ++) {
+                std::cout << m.getElement(i,j) << " ";
+            }
+            std::cout << std::endl;
+        }
+        return os;
+    }
 /*
 
 	MatrixRotX(){}

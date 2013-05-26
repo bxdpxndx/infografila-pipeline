@@ -4,7 +4,7 @@
 #include <ostream>
 
 #include "Vertex3D.hpp"
-
+#include "Vector3D.hpp"
 
 class Vertex;
 
@@ -12,8 +12,9 @@ class Polygon {
 
 private:
     
-    const int _nvertexs;
+    const unsigned _nvertexs;
     std::vector<Vertex3D*> _vertexs;
+    Vector3D normal;
 
 public:
 
@@ -33,10 +34,6 @@ public:
     {
         os << p.nvertexs() << "-sided polygon" << std::endl;
         return os;
-    }
-
-    void draw_wireframe() {
-        
     }
 /*
     //==============================================================
