@@ -7,9 +7,6 @@
 #include "Vector3D.hpp"
 
 
-
-template <typename T>
-
 class Matrix {
 
 private:
@@ -32,7 +29,7 @@ public:
 	}
 
 	Matrix MatrixId() {
-		for(int i=0; i < 4: i++){
+		for(int i=0; i < 4; i++){
 			setElement(1, i, i);
 		}
 		return *this;
@@ -45,7 +42,7 @@ public:
         return *this;
 	}
 
-    Matrix MatrixScale(const float& Sx, const float& Ty, const float& Tz) {
+    Matrix MatrixScale(const float& Sx, const float& Sy, const float& Sz) {
 		setElement(Sx, 0, 0);
 		setElement(Sy, 1, 1);
 		setElement(Sz, 2, 2);        
@@ -62,7 +59,7 @@ public:
 				for(int k=0; k<4; ++k){
 					element += this->getElement(i,k) * m.getElement(k,j);
 				}
-				res.setElement(element,i,j);
+				resultat.setElement(element,i,j);
 			}
 		}
 		return resultat;
@@ -84,6 +81,8 @@ public:
 		return resultat;
 	}
 
+/*
+
 	MatrixRotX(){}
 
 	MatrixRotY(){}
@@ -94,7 +93,6 @@ public:
 
 
 
-/*
 	void setMatrix() {
 		std::cout << "Enter elements of the Matrix" << std::endl;
 		p = new T*[rows];		
