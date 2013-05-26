@@ -12,13 +12,11 @@ template <typename T>
 
 class Matrix {
 
-public:
-
-	
+private:
 	float mat[16];
 
-
-
+public:
+	
 	float getElement(unsigned int x, unsigned int y) const {
         	return mat[ y * 4 + x ];
     	}
@@ -40,11 +38,20 @@ public:
 		return *this;
 	}
 
-	Matrix MatrixTrans(const float& Tx,  const float& Ty, const float& Tz) {
+	Matrix MatrixTrans(const float& Tx, const float& Ty, const float& Tz) {
 		setElement(-Tx, 3, 0);
 		setElement(-Ty, 3, 1);
 		setElement(-Tz, 3, 2);
+        return *this;
 	}
+
+    Matrix MatrixScale(const float& Sx, const float& Ty, const float& Tz) {
+		setElement(Sx, 0, 0);
+		setElement(Sy, 1, 1);
+		setElement(Sz, 2, 2);        
+    }
+
+
 
 	Matrix operator*(Matrix &m) {
 		Matrix resultat;
@@ -61,8 +68,11 @@ public:
 		return resultat;
 	}
 
-	Vector3D operator*(Vector3D &v) {
-		Vector resultat;
+    // així permetem fer servir tant Point3D, com Vector3D i Vertex3D
+    
+    template <class T>
+	T operator*(T &v) {
+		T resultat;
 		float element;		
 		for(int i=0; i<4; ++i){
 			element = 0;
