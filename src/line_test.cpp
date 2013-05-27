@@ -12,7 +12,7 @@
 int main(void) {
 
     Render render(480,320); // funciona como Image más o menos,
-                            // pero se le puedne añadir lineas y cosas.
+    // pero se le puedne añadir lineas y cosas.
     for(float i = -1; i < 1; i+=0.1) {
         Vertex3D start(i, 1, 0);
         Vertex3D end(-1, i, 0);
@@ -20,7 +20,7 @@ int main(void) {
         render.draw_line(l);
     }
     render.saveTGA("line_test.tga");
-    
+
     return 0;
 }
 

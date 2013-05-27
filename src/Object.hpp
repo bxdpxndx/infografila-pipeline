@@ -16,20 +16,22 @@ public:
         _polygons.push_back(p);
     }
 
-	~Object() {
-        for(std::vector<Polygon*>::iterator it = _polygons.begin(); it != _polygons.end(); it++) { delete *it;}
+    ~Object() {
+        for(std::vector<Polygon*>::iterator it = _polygons.begin(); it != _polygons.end(); it++) {
+            delete *it;
+        }
     }
-	
-	
-	void recorrer(){
-		std::cout<<" _polygons[j] "<<std::endl;
-		
-		for(int j=0; j<_polygons.size(); ++j) { 	
-			Polygon *pol=_polygons[j];
-			pol->recorrer();
-			//std::cout<< *_polygons[j] <<std::endl;
-			}
-		}
+
+
+    void recorrer() {
+        std::cout<<" _polygons[j] "<<std::endl;
+
+        for(int j=0; j<_polygons.size(); ++j) {
+            Polygon *pol=_polygons[j];
+            pol->recorrer();
+            //std::cout<< *_polygons[j] <<std::endl;
+        }
+    }
 };
 
 #endif // Object_hpp

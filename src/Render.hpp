@@ -29,6 +29,13 @@ public:
     };
 
     void draw_line(Line &l) {
+
+        // sólo usado para dibujar wireframes. algoritmo de bresenham
+        // http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
+        // tomado prestado de
+        // http://rosettacode.org/wiki/Bitmap/Bresenham's_line_algorithm#C
+        // sería necesario limpiar un poco el código.
+
         l.transform(_transform_matrix);
         int x0 = l.start.x;
         int y0 = l.start.y;
@@ -37,16 +44,23 @@ public:
         int dx = abs(x1-x0);
         int sx = x0<x1 ? 1 : -1;
         int dy = abs(y1-y0);
-        int sy = y0<y1 ? 1 : -1; 
-        int err = (dx>dy ? dx : -dy)/2, e2;
+        int sy = y0<y1 ? 1 : -1;
+        int err = (dx>dy ? dx : -dy)/2;
+        int e2;
 
         Color white(1,1,1);
-        for(;;){
+        for(;;) {
             _image.setPixel(white, x0, y0);
             if (x0==x1 && y0==y1) break;
             e2 = err;
-            if (e2 >-dx) { err -= dy; x0 += sx; }
-            if (e2 < dy) { err += dx; y0 += sy; }
+            if (e2 >-dx) {
+                err -= dy;
+                x0 += sx;
+            }
+            if (e2 < dy) {
+                err += dx;
+                y0 += sy;
+            }
         }
     }
 

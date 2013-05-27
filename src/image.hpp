@@ -13,36 +13,73 @@
 #include <algorithm>
 #include <array>
 
-float clamp(float x, float a, float b) { return x < a ? a : (x > b ? b : x); }
+float clamp(float x, float a, float b) {
+    return x < a ? a : (x > b ? b : x);
+}
 
 class Color
 {
 public:
     const union {
-        struct { float r; float g; float b; }; // not standard!
+        struct {
+            float r;
+            float g;
+            float b;
+        }; // not standard!
         float v[3];
     };
 
-    Color() { r = g = b = 0.0; }
-    Color(float r, float g, float b) { this->r = r; this->g = g; this->b = b; }
-    void set(float r, float g, float b) { this->r = r; this->g = g; this->b = b; }
+    Color() {
+        r = g = b = 0.0;
+    }
+    Color(float r, float g, float b) {
+        this->r = r;
+        this->g = g;
+        this->b = b;
+    }
+    void set(float r, float g, float b) {
+        this->r = r;
+        this->g = g;
+        this->b = b;
+    }
 };
 
-Color operator * (const Color& c,float v) { return Color(c.r*v, c.g*v, c.b*v); }
-void operator *= (Color& c,float v) { c = c * v; }
-Color operator / (const Color& c,float v) { return Color(c.r/v, c.g/v, c.b/v); }
-void operator /= (Color& c,float v) { c = c / v; }
-Color operator * (float v, const Color& c) { return Color(c.r*v, c.g*v, c.b*v); }
-Color operator + (const Color& a, const Color& b) { return Color(a.r+b.r, a.g+b.g, a.b+b.b); }
-void operator += (Color& a,const Color& b) { a = a + b; }
-Color operator - (const Color& a, const Color& b) { return Color(a.r-b.r, a.g-b.g, a.b-b.b); }
-void operator -= (Color& a,const Color& b) { a = a - b; }
-Color toGrayscale(Color& c) { float value = 0.3*c.r + 0.6*c.g + 0.1*c.b; return Color(value,value,value);}
+Color operator * (const Color& c,float v) {
+    return Color(c.r*v, c.g*v, c.b*v);
+}
+void operator *= (Color& c,float v) {
+    c = c * v;
+}
+Color operator / (const Color& c,float v) {
+    return Color(c.r/v, c.g/v, c.b/v);
+}
+void operator /= (Color& c,float v) {
+    c = c / v;
+}
+Color operator * (float v, const Color& c) {
+    return Color(c.r*v, c.g*v, c.b*v);
+}
+Color operator + (const Color& a, const Color& b) {
+    return Color(a.r+b.r, a.g+b.g, a.b+b.b);
+}
+void operator += (Color& a,const Color& b) {
+    a = a + b;
+}
+Color operator - (const Color& a, const Color& b) {
+    return Color(a.r-b.r, a.g-b.g, a.b-b.b);
+}
+void operator -= (Color& a,const Color& b) {
+    a = a - b;
+}
+Color toGrayscale(Color& c) {
+    float value = 0.3*c.r + 0.6*c.g + 0.1*c.b;
+    return Color(value,value,value);
+}
 
 class Image
 {
     //a general struct to store all the information about a TGA file
-    typedef struct sTGAInfo 
+    typedef struct sTGAInfo
     {
         unsigned int width;
         unsigned int height;
@@ -57,7 +94,8 @@ public:
 
     /* CONSTRUCTORS */
     Image() {
-        width = 0; height = 0;
+        width = 0;
+        height = 0;
         pixels = NULL;
     }
 
@@ -103,7 +141,7 @@ public:
     }
 
     //get the pixel at position x,y
-    Color getPixel(unsigned int x, unsigned int y) const 
+    Color getPixel(unsigned int x, unsigned int y) const
     {
         return pixels[ y * width + x ];
     }
@@ -180,7 +218,9 @@ public:
         for(unsigned i = 0; i < width*height; ++i) {
             if(pixels[i].r > max) max = pixels[i].r;
         }
-        forEachPixel([max](Color c){return c / max;});
+        forEachPixel([max](Color c) {
+            return c / max;
+        });
     }
 
     //fill the image with the color C
@@ -197,13 +237,13 @@ public:
         for(unsigned int x = 0; x < width; ++x)
             for(unsigned int y = 0; y < height; ++x)
             {
-                if( (x + start_x) < this->width && (y + start_y) < this->height) 
+                if( (x + start_x) < this->width && (y + start_y) < this->height)
                     result.setPixel( getPixel(x + start_x,y + start_y), x, y);
             }
         return result;
     }
 
-    #ifndef IGNORE_LAMBDAS
+#ifndef IGNORE_LAMBDAS
 
     //applies an algorithm to every pixel in an image
     // you can use lambda sintax:   img.forEachPixel( [](Color c) { return c*2; });
@@ -216,7 +256,7 @@ public:
         return *this;
     }
 
-    #endif
+#endif
 
     //Loads an image from a TGA file
     bool loadTGA(const char* filename)
@@ -228,9 +268,9 @@ public:
         unsigned int imageSize;
 
         FILE * file = fopen(filename, "rb");
-           if ( file == NULL || fread(TGAcompare, 1, sizeof(TGAcompare), file) != sizeof(TGAcompare) ||
-            memcmp(TGAheader, TGAcompare, sizeof(TGAheader)) != 0 ||
-            fread(header, 1, sizeof(header), file) != sizeof(header))
+        if ( file == NULL || fread(TGAcompare, 1, sizeof(TGAcompare), file) != sizeof(TGAcompare) ||
+                memcmp(TGAheader, TGAcompare, sizeof(TGAheader)) != 0 ||
+                fread(header, 1, sizeof(header), file) != sizeof(header))
         {
             std::cerr << "File not found: " << filename << std::endl;
             if (file == NULL)
@@ -243,28 +283,28 @@ public:
         }
 
         TGAInfo* tgainfo = new TGAInfo;
-    
+
         tgainfo->width = header[1] * 256 + header[0];
         tgainfo->height = header[3] * 256 + header[2];
-    
+
         if (tgainfo->width <= 0 || tgainfo->height <= 0 || (header[4] != 24 && header[4] != 32))
         {
             fclose(file);
             delete tgainfo;
             return NULL;
         }
-    
+
         tgainfo->bpp = header[4];
         bytesPerPixel = tgainfo->bpp / 8;
         imageSize = tgainfo->width * tgainfo->height * bytesPerPixel;
-    
+
         tgainfo->data = new unsigned char[imageSize];
-    
+
         if (tgainfo->data == NULL || fread(tgainfo->data, 1, imageSize, file) != imageSize)
         {
             if (tgainfo->data != NULL)
                 delete tgainfo->data;
-            
+
             fclose(file);
             delete tgainfo;
             return false;
