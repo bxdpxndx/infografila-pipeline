@@ -111,6 +111,7 @@ public:
     //set the pixel at position x,y with value C
     void setPixel(const Color& c, unsigned int x, unsigned int y)
     {
+        std::cout << "Setting pixel " << x << ", " << y << std::endl;
         pixels[ y * width + x ] = c;
     }
 

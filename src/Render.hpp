@@ -20,55 +20,33 @@ class Render {
 private:
     int _width, _height; // in pixels
     Image _image;
-    Matrix transform_matrix;
-
-    void draw_horizontal_line(Line & l) {
-
-        Color white(1,1,1);
-        // we only draw left to right.
-        if(l.start.x > l.end.x) {
-            l.flip();
-        }
-        int deltax = l.end.x - l.start.x;
-        int deltay = l.end.y - l.start.y;
-
-        float slope = (float) deltay/(float) deltax;
-
-        for (float i = 0; i < deltax; i++) {
-            _image.setPixel(white, i + l.start.x, l.start.y + (i*slope));
-        }
-    }
-
-    void draw_vertical_line(Line & l) {
-        Color white(1,1,1);
-        // we only draw downwards.
-        if(l.start.y > l.end.y) {
-            l.flip();
-        }
-        int deltax = l.end.x - l.start.x;
-        int deltay = l.end.y - l.start.y;
-
-        float slope = (float) deltax/(float) deltay;
-
-        for (int i = 0; i < deltay; i++) {
-            _image.setPixel(white, l.start.x + (i*slope), l.start.y + i);
-        }
-    }
+    Matrix _transform_matrix;
 
 public:
     Render(int width, int height) : _width(width), _height(height), _image(width, height) {
-        transform_matrix.setTranslation(width/2.0, height/2.0, 0);
-        transform_matrix.setScaling(width/2.0, height/2.0, 1);
+        _transform_matrix.setTranslation(width/2.0, height/2.0, 0);
+        _transform_matrix.setScaling(width/2.0, height/2.0, 1);
     };
 
-    void draw_line(Line l) {
+    void draw_line(Line &l) {
+        l.transform(_transform_matrix);
+        int x0 = l.start.x;
+        int y0 = l.start.y;
+        int x1 = l.end.x;
+        int y1 = l.end.y;
+        int dx = abs(x1-x0);
+        int sx = x0<x1 ? 1 : -1;
+        int dy = abs(y1-y0);
+        int sy = y0<y1 ? 1 : -1; 
+        int err = (dx>dy ? dx : -dy)/2, e2;
 
-        l.transform(transform_matrix);
-
-        if(l.is_vertical()) {
-            draw_vertical_line(l);
-        } else {
-            draw_horizontal_line(l);
+        Color white(1,1,1);
+        for(;;){
+            _image.setPixel(white, x0, y0);
+            if (x0==x1 && y0==y1) break;
+            e2 = err;
+            if (e2 >-dx) { err -= dy; x0 += sx; }
+            if (e2 < dy) { err += dx; y0 += sy; }
         }
     }
 
