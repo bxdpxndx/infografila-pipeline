@@ -35,21 +35,14 @@ public:
         os << p.nvertexs() << "-sided polygon" << std::endl;
         return os;
     }
-/*
-    //==============================================================
-    //un triangulo tiene tres vertices. v1 v2 v3
-    //p es el vector de v1v2 y q v1v3
     
-    void vectorPQ(){
-		float x,y,z;
-		std::cout<<"Tamaño"<<_vertexs.size()<<std::endl;
-		for(std::vector<Vertex3D*>::iterator it = _vertexs.begin(); it != _vertexs.end(); ++it) { 
-				 (*it)->getxyz(x,y,z);
-				 std::cout<< x << " " << y <<" "<< z  <<std::endl;
-			}
+    void recorrer(){ 
+		for(int i=0; i < _vertexs.size(); ++i) {
+			Vertex3D *ver=_vertexs[i]; 	
+			std::cout<< ver <<std::endl;
 		}
-    //==============================================================
-*/
+	}
+
 };
 
 #endif //Polygon_hpp
