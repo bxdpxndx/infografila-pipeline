@@ -9,7 +9,7 @@
 
 
 
-void ReadFile(int &nvertices, int &npoligonos, std::vector<Vertex3D*> &vertexs, Object object){
+void ReadFile(int &nvertices, int &npoligonos, std::vector<Vertex3D*> &vertexs, Object &object){
 	
 	std::ifstream fe("info_data.dat");
 		
@@ -62,14 +62,14 @@ int main(void)
 	
 	ReadFile (nvertices,npoligonos, vertexs, object);
     
-    for(int i=0; i < vertexs.size(); ++i) { 	
+    /*for(int i=0; i < vertexs.size(); ++i) { 	
 		std::cout<<*vertexs[i]<<std::endl;
 	}
-   	/*for(std::vector<Vertex3D*>::iterator it = vertexs.begin(); it != vertexs.end(); ++it) { 	
+   	for(std::vector<Vertex3D*>::iterator it = vertexs.begin(); it != vertexs.end(); ++it) { 	
 		std::cout << (*it)->x << " " << (*it)->y <<" " << (*it)->z << std::endl;
 	}*/
 	
-	//Solo quiero mostrar los poligonos
+	
 	object.recorrer();
   
   

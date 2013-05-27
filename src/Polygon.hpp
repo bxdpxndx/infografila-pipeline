@@ -1,5 +1,6 @@
 #ifndef Polygon_hpp
 #define Polygon_hpp
+
 #include <vector>
 #include <ostream>
 
@@ -38,11 +39,10 @@ public:
     
     void recorrer(){ 
 		for(int i=0; i < _vertexs.size(); ++i) {
-			Vertex3D *ver=_vertexs[i]; 	
-			std::cout<< ver <<std::endl;
+			_vertexs[i]->mostrar();
 		}
+		std::cout<<std::endl;
 	}
-
 };
 
 #endif //Polygon_hpp

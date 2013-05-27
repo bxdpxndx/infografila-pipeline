@@ -28,6 +28,10 @@ public:
     void set(float value, int i) {
         coords[i] = value;
     }
+    
+    void mostrar(){
+			std::cout << "(" << x << ", " << y << ", " << z << ")";
+	}
 
 };
 
