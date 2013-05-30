@@ -48,7 +48,6 @@ public:
     }
 
 
-
     Matrix operator*(Matrix &m) {
         Matrix resultat;
         float element;
@@ -64,7 +63,7 @@ public:
         return resultat;
     }
 
-    // així permetem fer servir tant Point3D, com Vector3D i Vertex3D
+    // així permetem fer servir tant Vector3D com Vertex3D
 
     template <class T>
     T operator*(T &v) {
@@ -89,63 +88,6 @@ public:
         }
         return os;
     }
-    /*
-
-    	MatrixRotX(){}
-
-    	MatrixRotY(){}
-
-    	MatrixRotZ(){}
-
-
-
-
-
-    	void setMatrix() {
-    		std::cout << "Enter elements of the Matrix" << std::endl;
-    		p = new T*[rows];
-    		for(int i=0; i < rows; i++){
-    			p[i] = new T[columns];
-    			for(int j=0; j < columns; j++){
-    				std::cin >> p[i][j];
-    			}
-    		}
-    		std::cout << "Matrix completed" << std::endl;
-    	}
-
-    	void writeMatrix() {
-    		std::cout << "Writting Matrix..." << std::endl;
-    		for(int i=0; i < rows; i++){
-    			for(int j=0; j < columns; j++){
-    				std::cout <<  p[i][j] << " ";
-    			}
-    			std::cout << std::endl;
-    		}
-    		std::cout << "Matrix completed" << std::endl;
-    	}
-
-
-    	Matrix& operator=( const Matrix & matrix){
-    		rows = matrix.rows;
-    		columns = matrix.columns;
-    		p = matrix.p;
-    		return *this;
-    	}
-
-
-
-    	Matrix operator*(const T & num) {
-    		Matrix res(this->rows);
-    		for(int i=0; i<rows; ++i){
-    			for(int j=0; j<columns; ++j){
-    				res.p[i][j] = this->p[i][j]*num;
-    			}
-    		}
-    		return res;
-    	}
-
-    };*/
-
 };
 #endif //Matrix_
 
