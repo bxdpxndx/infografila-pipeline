@@ -1,15 +1,33 @@
 #ifndef Vertex3D_hpp
 #define Vertex3D_hpp
-#include "Point3D.hpp"
 
-class Vertex3D : public Point3D {
+class Vertex3D {
 
 public:
-    Vertex3D(float x_in, float y_in, float z_in) : Point3D(x_in, y_in, z_in) {};
-    Vertex3D() : Point3D() {};
 
+    union {
+        struct {
+            float x, y, z, w;
+        };
+        float coords[4];
+    };
 
+    Vertex3D(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in), w(1) {};
+    Vertex3D() : x(0), y(0), z(0), w(0) {};
+
+    float get(int i) {
+        return coords[i];
+    }
+
+    void set(float value, int i) {
+        coords[i] = value;
+    }
 };
 
+std::ostream & operator<<(std::ostream &os, const Vertex3D & v)
+    {
+        os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+        return os;
+    }
 
 #endif // Vertex3D_hpp

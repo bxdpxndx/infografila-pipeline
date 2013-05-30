@@ -40,8 +40,8 @@ public:
     }
 
     void recorrer() {
-        for(int i=0; i < _vertexs.size(); ++i) {
-            _vertexs[i]->mostrar();
+        for(unsigned i=0; i < _vertexs.size(); ++i) {
+            std::cout << _vertexs[i];
         }
         std::cout<<std::endl;
     }

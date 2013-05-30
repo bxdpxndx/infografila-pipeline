@@ -26,7 +26,7 @@ public:
     void recorrer() {
         std::cout<<" _polygons[j] "<<std::endl;
 
-        for(int j=0; j<_polygons.size(); ++j) {
+        for(unsigned j=0; j<_polygons.size(); ++j) {
             Polygon *pol=_polygons[j];
             pol->recorrer();
             //std::cout<< *_polygons[j] <<std::endl;
