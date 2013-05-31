@@ -18,7 +18,7 @@ int main(void) {
     int width = 1024;
     int height = 1024;
     int nvertexs = 10;
-    
+
     srand(time(0));
 
     Render render(width, height); // funciona como Image más o menos,

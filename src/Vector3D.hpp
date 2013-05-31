@@ -11,7 +11,7 @@ public:
         };
         float coords[4];
     };
-    
+
     Vector3D(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in), w(1) {};
     Vector3D() : x(0), y(0), z(0), w(0) {};
 
@@ -25,10 +25,10 @@ public:
 };
 
 std::ostream & operator<<(std::ostream &os, const Vector3D & v)
-    {
-        os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
-        return os;
-    }
+{
+    os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+    return os;
+}
 
 #endif // Vector3D_hpp
 

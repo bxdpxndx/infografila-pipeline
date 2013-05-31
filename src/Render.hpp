@@ -64,7 +64,7 @@ public:
         }
     }
 
-    const Matrix & getTransformMatrix() const { 
+    const Matrix & getTransformMatrix() const {
         return _transform_matrix;
     }
 

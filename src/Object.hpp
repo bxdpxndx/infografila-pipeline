@@ -23,7 +23,7 @@ public:
     }
 
 
-    void recorrer() const{
+    void recorrer() const {
         std::cout<<" _polygons[j] "<<std::endl;
         for(unsigned j=0; j<_polygons.size(); ++j) {
             std::cout<< *_polygons[j] <<std::endl;

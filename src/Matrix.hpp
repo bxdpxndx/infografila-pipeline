@@ -65,7 +65,7 @@ public:
     // així permetem fer servir tant Vector3D com Vertex3D
 
     template <class T>
-    T operator*(const T &v) const{
+    T operator*(const T &v) const {
         T resultat;
         float element;
         for(int i=0; i<4; ++i) {
