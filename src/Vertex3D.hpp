@@ -15,7 +15,7 @@ public:
     Vertex3D(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in), w(1) {};
     Vertex3D() : x(0), y(0), z(0), w(0) {};
 
-    float get(int i) {
+    float get(int i) const{
         return coords[i];
     }
 

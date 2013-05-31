@@ -23,13 +23,10 @@ public:
     }
 
 
-    void recorrer() {
+    void recorrer() const{
         std::cout<<" _polygons[j] "<<std::endl;
-
         for(unsigned j=0; j<_polygons.size(); ++j) {
-            Polygon *pol=_polygons[j];
-            pol->recorrer();
-            //std::cout<< *_polygons[j] <<std::endl;
+            std::cout<< *_polygons[j] <<std::endl;
         }
     }
 };

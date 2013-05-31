@@ -25,10 +25,10 @@ private:
 public:
     Render(int width, int height) : _width(width), _height(height), _image(width, height) {
         _transform_matrix.setTranslation(width/2.0, height/2.0, 0);
-        _transform_matrix.setScaling(width/2.0, height/2.0, 1);
+        _transform_matrix.setScaling((width-1)/2.0, (height-1)/2.0, 1);
     };
 
-    void draw_line(Line &l) {
+    void draw_line(const Line & l) {
 
         // sólo usado para dibujar wireframes. algoritmo de bresenham
         // http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
@@ -36,11 +36,10 @@ public:
         // http://rosettacode.org/wiki/Bitmap/Bresenham's_line_algorithm#C
         // sería necesario limpiar un poco el código.
 
-        l.transform(_transform_matrix);
-        int x0 = l.start.x;
-        int y0 = l.start.y;
-        int x1 = l.end.x;
-        int y1 = l.end.y;
+        int x0 = l.start->x;
+        int y0 = l.start->y;
+        int x1 = l.end->x;
+        int y1 = l.end->y;
         int dx = abs(x1-x0);
         int sx = x0<x1 ? 1 : -1;
         int dy = abs(y1-y0);
@@ -49,6 +48,7 @@ public:
         int e2;
 
         Color white(1,1,1);
+        std::cout << "Drawing line " << l << std::endl;
         for(;;) {
             _image.setPixel(white, x0, y0);
             if (x0==x1 && y0==y1) break;
@@ -62,6 +62,10 @@ public:
                 y0 += sy;
             }
         }
+    }
+
+    const Matrix & getTransformMatrix() const { 
+        return _transform_matrix;
     }
 
     void saveTGA(const char *filename) {

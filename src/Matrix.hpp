@@ -47,8 +47,7 @@ public:
         setElement(Sz, 2, 2);
     }
 
-
-    Matrix operator*(Matrix &m) {
+    Matrix operator*(const Matrix &m) const {
         Matrix resultat;
         float element;
         for(int i=0; i<4; ++i) {
@@ -66,7 +65,7 @@ public:
     // així permetem fer servir tant Vector3D com Vertex3D
 
     template <class T>
-    T operator*(T &v) {
+    T operator*(const T &v) const{
         T resultat;
         float element;
         for(int i=0; i<4; ++i) {
@@ -79,16 +78,18 @@ public:
         return resultat;
     }
 
-    friend std::ostream & operator<<(std::ostream & os, const Matrix & m) {
-        for (int i = 0; i < 4; i ++) {
-            for (int j = 0; j < 4; j ++) {
-                std::cout << m.getElement(i,j) << " ";
-            }
-            std::cout << std::endl;
-        }
-        return os;
-    }
+    friend std::ostream & operator<<(std::ostream & os, const Matrix & m);
 };
+
+std::ostream & operator<<(std::ostream & os, const Matrix & m) {
+    for (int i = 0; i < 4; i ++) {
+        for (int j = 0; j < 4; j ++) {
+            std::cout << m.getElement(i,j) << " ";
+        }
+        std::cout << std::endl;
+    }
+    return os;
+}
 #endif //Matrix_
 
 
