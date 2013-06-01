@@ -1,6 +1,11 @@
-#include <assert.h>
+#ifndef Render_hpp
+#define Render_hpp
+#include <cassert>
 #include "image.hpp"
 #include "Line.hpp"
+#include "Polygon.hpp"
+#include "Object3D.hpp"
+#include "World.hpp"
 #include "Matrix.hpp"
 
 class Render {
@@ -11,8 +16,8 @@ class Render {
 
 // TODO (I think this order is good):
 
-// Better line-drawing algorithm.
-// drawing polygons (wireframe).
+// Better line-drawing algorithm. DONE
+// drawing polygons (wireframe). DONE
 // drawing polygons(filled).
 // shading.
 // z-buffer rendering.
@@ -22,14 +27,8 @@ private:
     Image _image;
     Matrix _transform_matrix;
 
-public:
-    Render(int width, int height) : _width(width), _height(height), _image(width, height) {
-        _transform_matrix.setTranslation(width/2.0, height/2.0, 0);
-        _transform_matrix.setScaling((width-1)/2.0, (height-1)/2.0, 1);
-    };
-
+    // wireframe drawing functions
     void draw_line(const Line & l) {
-
         // sólo usado para dibujar wireframes. algoritmo de bresenham
         // http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
         // tomado prestado de
@@ -63,13 +62,37 @@ public:
             }
         }
     }
-
-    const Matrix & getTransformMatrix() const {
-        return _transform_matrix;
+    void draw_polygon_wireframe(const Polygon & p) {
+        for (auto it = p.lines_begin(); it != p.lines_end(); it++) {
+            draw_line(*it);
+        }
     }
 
-    void saveTGA(const char *filename) {
+    void draw_polygon(const Polygon & p);
+    void draw_object(const Object3D & o) {
+        for (auto it = o.polys_begin(); it != o.polys_end(); it ++) {
+            draw_polygon_wireframe(**it);
+        }
+    }
+
+
+
+public:
+    Render(int width, int height) : _width(width), _height(height), _image(width, height) {
+        _transform_matrix.setTranslation(width/2.0, height/2.0, 0);
+        _transform_matrix.setScaling((width-1)/2.0, (height-1)/2.0, 1);
+    };
+
+
+    void draw (World & w) {
+        w.transform(_transform_matrix);
+        for (auto it = w.objects_begin(); it != w.objects_end(); it++) {
+            draw_object(**it);
+        }
+    }
+    void saveTGA(char * filename) {
         _image.saveTGA(filename);
     }
 };
 
+#endif // Render_hpp

@@ -23,10 +23,10 @@ public:
 
     class LineIterator {
     private:
-        Polygon *_poly;
+        const Polygon * const _poly;
         int _pointer;
     public:
-        LineIterator(Polygon * poly, int start) : _poly(poly), _pointer(start) {};
+        LineIterator(const Polygon * const poly, int start) : _poly(poly), _pointer(start) {};
 
         Line operator*() const {
             return Line(_poly->_vertexs[_pointer], _poly->_vertexs[(1 + _pointer) % _poly->_nvertexs]);
@@ -68,11 +68,11 @@ public:
         return _nvertexs;
     };
 
-    LineIterator lines_begin() {
+    LineIterator lines_begin() const {
         return LineIterator(this, 0);
     }
 
-    LineIterator lines_end() {
+    LineIterator lines_end() const {
         return LineIterator(this, _nvertexs);
     }
 

@@ -1,17 +1,16 @@
 CC=g++
 CFLAGS=-g --std=c++11 -Wall -Werror
 
-all: renderer line_test poly_test
+all: renderer
 
-renderer: main.cpp Vertex3D.hpp Polygon.hpp Vector3D.hpp Object.hpp
-	$(CC) $(CFLAGS) -o renderer main.cpp
+renderer: main.o
+	$(CC) $(CFLAGS) -o renderer main.o
 
-line_test: line_test.cpp Vertex3D.hpp Line.hpp Matrix.hpp Vector3D.hpp image.hpp Render.hpp Polygon.hpp
-	$(CC) $(CFLAGS) -o line_test line_test.cpp
-
-poly_test: Vertex3D.hpp Line.hpp Matrix.hpp Vector3D.hpp image.hpp Render.hpp Polygon.hpp
-	$(CC) $(CFLAGS) -o poly_test poly_test.cpp
+main.o: main.cpp World.hpp Object3D.hpp Polygon.hpp Vertex3D.hpp \
+ Vector3D.hpp Line.hpp Matrix.hpp Camera.hpp Light.hpp Render.hpp \
+ image.hpp
+	$(CC) $(CFLAGS) -c main.cpp
 
 clean:
-	rm -f renderer line_test poly_test line_test.tga poly_test.tga
+	rm -f renderer
 
