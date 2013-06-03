@@ -82,6 +82,7 @@ public:
     typename std::vector<Polygon *>::const_iterator polys_end() const {
         return _polygons.end();
     }
+    
 };
 
 #endif // Object3D_hpp
