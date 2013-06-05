@@ -15,7 +15,7 @@ public:
     Vector3D(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in), w(0) {};
     Vector3D() : x(0), y(0), z(0), w(0) {};
 
-    float get(int i) {
+    float get(int i) const{
         return coords[i];
     }
 
@@ -40,7 +40,10 @@ public:
     }
 
     Vector3D vectorial_product(const Vector3D & other) const {
-        return Vector3D();
+        return Vector3D(y * other.z - z * other.y,
+                        z * other.x - x * other.z,
+                        x * other.y - y * other.x
+                        );
     }
 
     void normalize() {

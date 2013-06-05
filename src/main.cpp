@@ -1,6 +1,7 @@
 #include <iostream> // std::cout
 #include <fstream> // std::ifstream
 #include <vector>
+#include <sstream>
 
 #include <cassert>
 #include "World.hpp"
@@ -11,13 +12,27 @@
 
 int main(int argc, char *argv[])
 {
-    if( argc != 3 ) {
-        std::cerr << "Missing arguments: Usage " << argv[0] << " <object file> <output filename>" << std::endl;
+    int width = 512;
+    int height = 512;
+    std::string input_file;
+    std::string output_file;
+    
+    if( argc == 3 || argc == 5) {
+        input_file = argv[1];
+        output_file = argv[2];
+    }
+
+    if (argc == 5) {
+        std::stringstream(argv[3]) >> width;
+        std::stringstream(argv[4]) >> height;
+    }
+        
+
+    else {
+        std::cerr << "Missing arguments: Usage " << argv[0] << " <object file> <output filename> [width height]" << std::endl;
         return 0;
     }
 
-    int width = 480;
-    int height = 320;
 
     World w;
 
