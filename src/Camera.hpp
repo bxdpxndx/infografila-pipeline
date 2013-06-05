@@ -7,71 +7,62 @@ class Camera {
 
 public: 
 
-	union {
-        struct {
-            float x, y, z, w;
-        };
-        float coords[4];
-    };
 	
-	union {
-        struct {
-            float atx, aty, atz, atw;
-        };
-        float lookat[4];
-    };
+	Vertex3D *_centerCamera;
+	Vertex3D *_lookAt;
 
-	vector<float> CameraDirection(4);
-	vector<float> CameraUp(4);
-	vector<float> CameraRight(4);
+	Vector3D _cameraDirection;
+	Vector3D _cameraUp;
+	Vector3D _cameraLeft;
 		
-	Camera() : x(0), y(0), z(0), w(1) {};
-
-	Camera(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in), w(1) {};
+	Camera() {
+		_centerCamera = new Vertex3D();
+	};
+	
+	Camera(float x_in, float y_in, float z_in) {
+		_centerCamera = new Vertex3D(x_in, y_in, z_in);
+	};
 
 	CameraLookAt(float x_in, float y_in, float z_in) {
-		atx = x_in;
-		aty = y_in;
-		atz = z_in;
-		atw = 1;
+		_lookAt = new Vertex3D(x_in, y_in, z_in);
 	}
 
-	//we set the vector 'Direction' using Direction = lookat - coords
+	//we set the vector 'Direction' using Direction = lookAt - centerCamera
 	void setDirectionCamera() {
-		CameraDirection = {atx-x,aty-y,atz-z,0};
+		_cameraDirection = _lookAt - _centerCamera;
 	}
 
 	//we set the vector 'Up' using Up = V - V*N/( normVector(V - V*N) )
 	void setVectorUpCamera() {
-		vector<float> other(4) = {0,1,0,0};
-		vector<float> aux(4);
-		aux = other - (other*CameraDirection);
-		CameraUp = aux / normVector(aux);
+		Vector3D other(0,1,0,0);
+		Vector3D aux();
+		aux = other - (other*_cameraDirection);
+		_cameraUp = aux / normVector(aux);
 	}
 
 	//we set the vector 'Left' using Left = Direction x Up   )
 	void setVectorRight() {
-		CameraLeft = crossProduct(CameraDirection, CameraUp);
+		_cameraLeft = crossProduct(_cameraDirection, _cameraUp);
 	}
 
     float getPositionCamera(int i) const {
-        return coords[i];
+        return _centerCamera.get(i);
     }
 
     void setPositionCamera(float value, int i) {
-        coords[i] = value;
+        _centerCamera.set(value, i);
     }
 
 	float getElementVectorUp(int i) {
-		return CameraUp(i);
+		return _cameraUp.get(i);
 	}
 
 	float getElementVectorLeft(int i) {
-		return CameraLeft(i);
+		return _cameraLeft.get(i);
 	}
 	
 	float getElementVectorDirection(int i) {
-		return CameraDirection(i);
+		return _cameraDirection.get(i);
 	}
 
 };
