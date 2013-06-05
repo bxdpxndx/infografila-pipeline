@@ -12,7 +12,7 @@ public:
         float coords[4];
     };
 
-    Vector3D(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in), w(1) {};
+    Vector3D(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in), w(0) {};
     Vector3D() : x(0), y(0), z(0), w(0) {};
 
     float get(int i) {
@@ -21,6 +21,33 @@ public:
 
     void set(float value, int i) {
         coords[i] = value;
+    }
+
+    float length() const {
+        return sqrt(this->dot_product(*this));
+    }
+
+    Vector3D operator* (float f) const {
+        return Vector3D(x * f, y * f, z * f);
+    }
+
+    float dot_product(const Vector3D & other) const {
+        return (x * other.x) + (y * other.y) + (z * other.z);
+    }
+
+    Vector3D operator-(const Vector3D & other) const {
+        return Vector3D(x - other.x, y - other.y, z - other.z);
+    }
+
+    Vector3D vectorial_product(const Vector3D & other) const {
+        return Vector3D();
+    }
+
+    void normalize() {
+        float l = length();
+        x /= l;
+        y /= l;
+        z /= l;
     }
 };
 

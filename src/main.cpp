@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    int width = 1920;
-    int height = 1080;
+    int width = 480;
+    int height = 320;
 
     World w;
 

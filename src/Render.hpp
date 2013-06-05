@@ -34,7 +34,6 @@ private:
         // tomado prestado de
         // http://rosettacode.org/wiki/Bitmap/Bresenham's_line_algorithm#C
         // sería necesario limpiar un poco el código.
-
         int x0 = l.start->x;
         int y0 = l.start->y;
         int x1 = l.end->x;
@@ -47,7 +46,6 @@ private:
         int e2;
 
         Color white(1,1,1);
-        std::cout << "Drawing line " << l << std::endl;
         for(;;) {
             _image.setPixel(white, x0, y0);
             if (x0==x1 && y0==y1) break;
@@ -61,6 +59,7 @@ private:
                 y0 += sy;
             }
         }
+
     }
     void draw_polygon_wireframe(const Polygon & p) {
         for (auto it = p.lines_begin(); it != p.lines_end(); it++) {
@@ -71,7 +70,7 @@ private:
     void draw_polygon(const Polygon & p);
     void draw_object(const Object3D & o) {
         for (auto it = o.polys_begin(); it != o.polys_end(); it ++) {
-            draw_polygon_wireframe(**it);
+            draw_polygon_wireframe(*it);
         }
     }
 
