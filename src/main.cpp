@@ -48,9 +48,9 @@ int main(int argc, char *argv[])
     w.set_light(light);
     w.set_camera(camera);
 
-    Render r(width,height);
-    r.draw(w);
+    //Render r(width,height);
+    //r.draw(w);
 
-    r.saveTGA(argv[2]);
+    //r.saveTGA(argv[2]);
 
 }

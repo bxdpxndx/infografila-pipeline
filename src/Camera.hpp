@@ -17,6 +17,24 @@ class Camera {
 	Vector3D _cameraUp;
 	Vector3D _cameraRight;
 
+	float _cameraAperture;
+
+	float _nearPlane;
+
+	float _farPlane;
+
+
+	void setNearPlane(float value) {
+		_nearPlane = value;
+	}
+
+	void setFarPlane(float value) {
+		_farPlane = value;
+	}
+
+	void setCameraAperture(float value) {
+		_cameraAperture = value;
+	}
 
 	//we set the vector 'Direction' using Direction = lookat - coords
 	void setDirection() {
@@ -86,6 +104,19 @@ public:
         }
         return rotation * translation;
     }
+
+	Matrix setMatrixProjection(float left, float right, float top, float bottom) {
+		Matrix projection;
+		float persp1 = _nearPlane/_cameraAperture;
+		float persp2 = _fearPlane - _nearPlane;
+		projection.setElement(persp1,0,0);
+		projection.setElement(persp1,1,1);
+		projection.setElement(_farPlane/persp2,2,2);
+		projection.setElement((_nearPlane*_farPlane*(-1))/persp2,2,3);
+		projection.setElement(1,3,2);
+		return projection;
+	}
+		
 
     friend std::ostream & operator<<(std::ostream &os, const Camera & c);
     
