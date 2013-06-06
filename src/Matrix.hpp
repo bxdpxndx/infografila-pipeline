@@ -28,6 +28,16 @@ public:
         }
     }
 
+    static Matrix screenTransform(float width, float height) {
+        Matrix m = identity();
+
+        m.setElement((width-1)/2.0, 0, 0);
+        m.setElement((height-1)/2.0, 1, 1);
+        m.setElement(width/2.0, 3, 0);
+        m.setElement(height/2.0, 3, 1);
+
+        return m;
+    }
     static Matrix identity() {
         Matrix m;
         for(int i=0; i < 4; i++) {

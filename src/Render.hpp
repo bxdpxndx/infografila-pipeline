@@ -25,7 +25,6 @@ class Render {
 private:
     int _width, _height; // in pixels
     Image _image;
-    Matrix _transform_matrix;
 
     // wireframe drawing functions
     void draw_line(const Line & l) {
@@ -84,18 +83,17 @@ private:
 
 public:
     Render(int width, int height) : _width(width), _height(height), _image(width, height) {
-        _transform_matrix.setTranslation(width/2.0, height/2.0, 0);
-        _transform_matrix.setScaling((width-1)/2.0, (height-1)/2.0, 1);
     };
-
 
     void draw (World & w) {
         w.apply_camera_transform();
-        w.transform(_transform_matrix);
+        w.apply_projection_transform();
+        w.transform(Matrix::screenTransform(_width, _height));
         for (auto it = w.objects_begin(); it != w.objects_end(); it++) {
             draw_object(**it);
         }
     }
+
     void saveTGA(char * filename) {
         _image.saveTGA(filename);
     }

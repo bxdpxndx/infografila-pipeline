@@ -89,8 +89,7 @@ public:
         setVectorRight();
         return *this;
     }
-
-    Matrix getCameraTransform() const{
+    Matrix getCameraTransform() const {
         Matrix rotation = Matrix::identity();
         for(int i = 0; i < 3; i++) {
             rotation.setElement(_cameraRight.get(i), 0, i);

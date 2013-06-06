@@ -42,9 +42,8 @@ int main(int argc, char *argv[])
     Light light;
     Camera camera;
 
-    camera.position(4.7, -2.2, -5.5).lookAt(0.5, 0.5, 0.5).calcVectors();
+    camera.position(4.7, 0.5, -5.5).lookAt(0.5, 0.5, 1).calcVectors();
 
-    std::cout << camera << std::endl;
     w.set_light(light);
     w.set_camera(camera);
 

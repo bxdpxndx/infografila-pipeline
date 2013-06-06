@@ -34,6 +34,10 @@ public:
         transform(_camera.getCameraTransform());
     }
 
+    void apply_projection_transform() {
+        transform(_camera.getProjectionTransform());
+    }
+
     void transform(const Matrix & matrix) {
         for (auto it = _objects.begin(); it != _objects.end(); it++) {
             (*it)->apply_matrix_transform(matrix);

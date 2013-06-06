@@ -53,8 +53,10 @@ public:
     }
 
     void apply_matrix_transform(const Matrix & matrix) {
+        std::cout << matrix << std::endl;
         for( auto it = _vertexs.begin(); it != _vertexs.end(); it++) {
             *it = matrix * (*it);
+            it->project();
         }
     }
 
