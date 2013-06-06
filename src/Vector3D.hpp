@@ -23,20 +23,20 @@ public:
         coords[i] = value;
     }
 
-    float length() const {
-        return sqrt(this->dot_product(*this));
+    Vector3D operator-(const Vector3D & other) const {
+        return Vector3D(x - other.x, y - other.y, z - other.z);
     }
 
     Vector3D operator* (float f) const {
         return Vector3D(x * f, y * f, z * f);
     }
 
-    float dot_product(const Vector3D & other) const {
-        return (x * other.x) + (y * other.y) + (z * other.z);
+    float length() const {
+        return sqrt(this->dot_product(*this));
     }
 
-    Vector3D operator-(const Vector3D & other) const {
-        return Vector3D(x - other.x, y - other.y, z - other.z);
+    float dot_product(const Vector3D & other) const {
+        return (x * other.x) + (y * other.y) + (z * other.z);
     }
 
     Vector3D vectorial_product(const Vector3D & other) const {

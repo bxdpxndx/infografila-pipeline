@@ -28,11 +28,12 @@ public:
         }
     }
 
-    Matrix MatrixId() {
+    static Matrix identity() {
+        Matrix m;
         for(int i=0; i < 4; i++) {
-            setElement(1, i, i);
+            m.setElement(1, i, i);
         }
-        return *this;
+        return m;
     }
 
     void setTranslation(float Tx, float Ty, float Tz) {

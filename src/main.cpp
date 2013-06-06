@@ -22,15 +22,14 @@ int main(int argc, char *argv[])
         output_file = argv[2];
     }
 
-    if (argc == 5) {
-        std::stringstream(argv[3]) >> width;
-        std::stringstream(argv[4]) >> height;
-    }
-        
-
     else {
         std::cerr << "Missing arguments: Usage " << argv[0] << " <object file> <output filename> [width height]" << std::endl;
         return 0;
+    }
+
+    if (argc == 5) {
+        std::stringstream(argv[3]) >> width;
+        std::stringstream(argv[4]) >> height;
     }
 
 
@@ -43,6 +42,9 @@ int main(int argc, char *argv[])
     Light light;
     Camera camera;
 
+    camera.position(4.7, -2.2, -5.5).lookAt(0.5, 0.5, 0.5).calcVectors();
+
+    std::cout << camera << std::endl;
     w.set_light(light);
     w.set_camera(camera);
 

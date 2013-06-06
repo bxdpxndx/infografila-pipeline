@@ -47,7 +47,13 @@ private:
 
         Color white(1,1,1);
         for(;;) {
-            _image.setPixel(white, x0, y0);
+            //std::cout << "  setting pixel " << x0 << " " << y0 << std::endl;
+            if ( x0 < 0 || x0 >= _width || y0 < 0 || y0 >= _height ) {
+                ;
+            }
+            else {
+                _image.setPixel(white, x0, y0);
+            }
             if (x0==x1 && y0==y1) break;
             e2 = err;
             if (e2 >-dx) {
@@ -84,6 +90,7 @@ public:
 
 
     void draw (World & w) {
+        w.apply_camera_transform();
         w.transform(_transform_matrix);
         for (auto it = w.objects_begin(); it != w.objects_end(); it++) {
             draw_object(**it);

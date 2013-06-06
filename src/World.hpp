@@ -30,6 +30,10 @@ public:
         _camera = c;
     }
 
+    void apply_camera_transform() {
+        transform(_camera.getCameraTransform());
+    }
+
     void transform(const Matrix & matrix) {
         for (auto it = _objects.begin(); it != _objects.end(); it++) {
             (*it)->apply_matrix_transform(matrix);
