@@ -14,7 +14,7 @@ class Polygon {
 
 private:
 
-    const unsigned _nvertexs;
+    unsigned _nvertexs;
     std::vector<Vertex3D*> _vertexs;
     Vector3D normal;
 

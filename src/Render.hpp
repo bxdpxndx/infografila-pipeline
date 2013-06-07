@@ -67,14 +67,14 @@ private:
 
     }
     void draw_polygon_wireframe(const Polygon & p) {
-        for (auto it = p.lines_begin(); it != p.lines_end(); it++) {
+        for (Polygon::LineIterator it = p.lines_begin(); it != p.lines_end(); it++) {
             draw_line(*it);
         }
     }
 
     void draw_polygon(const Polygon & p);
     void draw_object(const Object3D & o) {
-        for (auto it = o.polys_begin(); it != o.polys_end(); it ++) {
+        for (std::vector<Polygon>::const_iterator it = o.polys_begin(); it != o.polys_end(); it ++) {
             draw_polygon_wireframe(*it);
         }
     }
@@ -89,7 +89,7 @@ public:
         w.apply_camera_transform();
         w.apply_projection_transform();
         w.transform(Matrix::screenTransform(_width, _height));
-        for (auto it = w.objects_begin(); it != w.objects_end(); it++) {
+        for (std::vector <Object3D *>::const_iterator it = w.objects_begin(); it != w.objects_end(); it++) {
             draw_object(**it);
         }
     }

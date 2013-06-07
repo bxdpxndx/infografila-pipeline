@@ -13,7 +13,7 @@ class World {
     Camera _camera;
 public:
     ~World() {
-        for (auto it = _objects.begin(); it != _objects.end(); it++) {
+        for (std::vector<Object3D *>::iterator it = _objects.begin(); it != _objects.end(); it++) {
             delete (*it);
         }
     }
@@ -39,7 +39,7 @@ public:
     }
 
     void transform(const Matrix & matrix) {
-        for (auto it = _objects.begin(); it != _objects.end(); it++) {
+        for (std::vector<Object3D *>::iterator it = _objects.begin(); it != _objects.end(); it++) {
             (*it)->apply_matrix_transform(matrix);
         }
     }

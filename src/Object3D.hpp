@@ -21,7 +21,7 @@ public:
     // Object3D uses factory methods.
     static Object3D * from_file(std::string filename) {
         Object3D * obj = new Object3D;
-        std::ifstream fe(filename);
+        std::ifstream fe(filename.c_str());
         if(!fe.is_open()) {
             std::cout << "-!- error abriendo el fichero " << filename << std::endl;
         }
@@ -54,7 +54,7 @@ public:
 
     void apply_matrix_transform(const Matrix & matrix) {
         std::cout << matrix << std::endl;
-        for( auto it = _vertexs.begin(); it != _vertexs.end(); it++) {
+        for( std::vector<Vertex3D>::iterator it = _vertexs.begin(); it != _vertexs.end(); it++) {
             *it = matrix * (*it);
             it->project();
         }

@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <algorithm>
-#include <array>
 
 float clamp(float x, float a, float b) {
     return x < a ? a : (x > b ? b : x);
@@ -213,16 +212,6 @@ public:
         pixels = new_pixels;
     }
 
-    void normalize() {
-        float max = 0;
-        for(unsigned i = 0; i < width*height; ++i) {
-            if(pixels[i].r > max) max = pixels[i].r;
-        }
-        forEachPixel([max](Color c) {
-            return c / max;
-        });
-    }
-
     //fill the image with the color C
     void fill(const Color& c)
     {
@@ -242,21 +231,6 @@ public:
             }
         return result;
     }
-
-#ifndef IGNORE_LAMBDAS
-
-    //applies an algorithm to every pixel in an image
-    // you can use lambda sintax:   img.forEachPixel( [](Color c) { return c*2; });
-    // or callback sintax:   img.forEachPixel( mycallback ); //the callback has to be Color mycallback(Color c) { ... }
-    template <typename F>
-    Image& forEachPixel( F callback )
-    {
-        for(unsigned int pos = 0; pos < width*height; ++pos)
-            pixels[pos] = callback(pixels[pos]);
-        return *this;
-    }
-
-#endif
 
     //Loads an image from a TGA file
     bool loadTGA(const char* filename)
@@ -378,17 +352,5 @@ public:
         return true;
     }
 };
-
-#ifndef IGNORE_LAMBDAS
-
-//you can apply and algorithm for two images and store the result in the first one
-//forEachPixel( img, img2, [](Color a, Color b) { return a + b; } );
-template <typename F>
-void forEachPixel(Image& img, const Image& img2, F f) {
-    for(unsigned int pos = 0; pos < img.width * img.height; ++pos)
-        img.pixels[pos] = f( img.pixels[pos], img2.pixels[pos] );
-}
-
-#endif
 
 #endif
