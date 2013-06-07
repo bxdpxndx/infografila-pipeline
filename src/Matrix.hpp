@@ -33,8 +33,8 @@ public:
 
         m.setElement((width-1)/2.0, 0, 0);
         m.setElement((height-1)/2.0, 1, 1);
-        m.setElement(width/2.0, 3, 0);
-        m.setElement(height/2.0, 3, 1);
+        m.setElement(width/2.0, 0, 3);
+        m.setElement(height/2.0, 1, 3);
 
         return m;
     }

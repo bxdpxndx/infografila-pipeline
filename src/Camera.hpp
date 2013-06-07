@@ -24,7 +24,7 @@ class Camera {
 	float _farPlane;
 
 
-	void setNearPlane(float value) {
+	/*void setNearPlane(float value) {
 		_nearPlane = value;
 	}
 
@@ -34,7 +34,7 @@ class Camera {
 
 	void setCameraAperture(float value) {
 		_cameraAperture = value;
-	}
+	}*/
 
 	//we set the vector 'Direction' using Direction = lookat - coords
 	void setDirection() {
@@ -52,12 +52,15 @@ class Camera {
 	}
 
 	//we set the vector 'Left' using Left = Direction x Up   )
-    void setVectorRight() {
-        _cameraRight = _cameraDirection.vectorial_product(_cameraUp);
-        _cameraRight.normalize();
+    	void setVectorRight() {
+        	_cameraRight = _cameraDirection.vectorial_product(_cameraUp);
+        	_cameraRight.normalize();
     }
 
 public: 
+
+
+	
 
     Camera() {};
 	Camera(float x, float y, float z) : _position(x, y, z) {};
@@ -89,6 +92,22 @@ public:
         setVectorRight();
         return *this;
     }
+
+
+	void setNearPlane(float value) {
+		_nearPlane = value;
+	}
+
+	void setFarPlane(float value) {
+		_farPlane = value;
+	}
+
+	void setCameraAperture(float value) {
+		_cameraAperture = value;
+	}
+
+
+
     Matrix getCameraTransform() const {
         Matrix rotation = Matrix::identity();
         for(int i = 0; i < 3; i++) {
@@ -104,10 +123,10 @@ public:
         return rotation * translation;
     }
 
-	Matrix setMatrixProjection(float left, float right, float top, float bottom) {
+	Matrix getProjectionTransform() {
 		Matrix projection;
 		float persp1 = _nearPlane/_cameraAperture;
-		float persp2 = _fearPlane - _nearPlane;
+		float persp2 = _farPlane - _nearPlane;
 		projection.setElement(persp1,0,0);
 		projection.setElement(persp1,1,1);
 		projection.setElement(_farPlane/persp2,2,2);

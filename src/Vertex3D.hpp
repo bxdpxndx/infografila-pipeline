@@ -31,7 +31,7 @@ public:
     }
 
     void project() {
-        assert( w > 0 );
+        //assert( w > 0 );
         x /= w;
         y /= w;
         z /= w;

@@ -44,7 +44,7 @@ private:
         int err = (dx>dy ? dx : -dy)/2;
         int e2;
 
-        Color white(1,1,1);
+        Color white(1-l.start->z,1-l.start->z,1-l.start->z);
         for(;;) {
             //std::cout << "  setting pixel " << x0 << " " << y0 << std::endl;
             if ( x0 < 0 || x0 >= _width || y0 < 0 || y0 >= _height ) {
