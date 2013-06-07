@@ -1,6 +1,8 @@
 #ifndef Vector3D_hpp
 #define Vector3D_hpp
 
+#include <cmath>
+
 class Vector3D {
 
 public:
@@ -25,6 +27,10 @@ public:
 
     Vector3D operator-(const Vector3D & other) const {
         return Vector3D(x - other.x, y - other.y, z - other.z);
+    }
+
+    Vector3D operator+(const Vector3D & other) const {
+        return Vector3D(x + other.x, y + other.y, z + other.z);
     }
 
     Vector3D operator* (float f) const {

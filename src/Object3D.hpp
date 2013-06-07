@@ -15,6 +15,13 @@ private:
     std::vector<Polygon> _polygons;
     std::vector<Vertex3D> _vertexs;
 
+	void calculateAllNormals() {
+		for( std::vector<Polygon>::iterator it = _polygons.begin(); it != _polygons.end(); it++) {
+			it->NormalV();
+			it->addNormalToVertexs();
+		}
+	}
+
 public:
     Object3D() {};
 
@@ -48,6 +55,7 @@ public:
             assert(p.is_valid());
             obj->_polygons.push_back(p);
         }
+		obj->calculateAllNormals();
         std::cout << "Cargados " << nvertexs << " vértices y " << npolys << " polígonos." << std::endl;
         return obj;
     }

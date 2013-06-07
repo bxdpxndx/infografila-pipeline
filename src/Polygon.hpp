@@ -16,7 +16,7 @@ private:
 
     unsigned _nvertexs;
     std::vector<Vertex3D*> _vertexs;
-    Vector3D normal;
+    Vector3D _normal;
 
 
 public:
@@ -83,34 +83,30 @@ public:
 			 //Calculo vectores P y Q qye unen los 
 			 //vertices V1V2V3 de un triangulo.
 			 Vector3D P,Q;
-			 P.x= (_vertexs[1]->x) - (_vertexs[0]->x);
-			 P.y= (_vertexs[1]->y) - (_vertexs[0]->y);
-			 P.x= (_vertexs[1]->z) - (_vertexs[0]->z);
-			 Q.x= (_vertexs[2]->x) - (_vertexs[0]->x);
-			 Q.y= (_vertexs[2]->y) - (_vertexs[0]->y);
-			 Q.x= (_vertexs[2]->z) - (_vertexs[0]->z);
-		
+			 P= *_vertexs[1] - *_vertexs[0];
+			 Q= *_vertexs[2] - *_vertexs[0];
+
 			//Vector normal a los vectores P y Q
-			normal.x = (P.y * Q.z) - (P.z*Q.y);
-			normal.y = (P.z * Q.x) - (P.x*Q.z);
-			normal.z = (P.x * Q.y) - (P.y*Q.x);
+			_normal=P.vectorial_product(Q);
+	
+			_normal.normalize();
 			
-			//Mmodulo de la normal.
-			float Modulo = sqrt(normal.x*normal.x + normal.y*normal.y + normal.z*normal.z);
-			
-			//Notmlaizar.
-			normal.x /= Modulo;
-			normal.y /= Modulo;
-			normal.z /= Modulo;
-			
+	}
+
+	void addNormalToVertexs() {
+		for (std::vector<Vertex3D *>::iterator it = _vertexs.begin(); it != _vertexs.end(); it ++) {
+			(*it)->addNormal(_normal);
 		}
+	}
 
 };
 
 std::ostream & operator<<(std::ostream & os, const Polygon& poly) {
     os << "Polígono de " << poly._nvertexs << " lados:" << std::endl;
+    os << "Normal: " << poly._normal << std::endl;
+
     for(unsigned i=0; i < poly._vertexs.size(); ++i) {
-        os << "  " << poly._vertexs[i] << std::endl;
+        os << "  " << *(poly._vertexs[i]) << std::endl;
     }
     return os;
 }
