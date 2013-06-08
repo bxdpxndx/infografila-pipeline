@@ -22,34 +22,34 @@ private:
 public:
 
     class LineIterator {
-		private:
-			const Polygon * const _poly;
-			int _pointer;
-		public:
-			LineIterator(const Polygon * const poly, int start) : _poly(poly), _pointer(start) {};
+    private:
+        const Polygon * const _poly;
+        int _pointer;
+    public:
+        LineIterator(const Polygon * const poly, int start) : _poly(poly), _pointer(start) {};
 
-			Line operator*() const {
-				return Line(_poly->_vertexs[_pointer], _poly->_vertexs[(1 + _pointer) % _poly->_nvertexs]);
-			}
+        Line operator*() const {
+            return Line(_poly->_vertexs[_pointer], _poly->_vertexs[(1 + _pointer) % _poly->_nvertexs]);
+        }
 
-			LineIterator & operator++() {
-				++_pointer;
-				return *this;
-			}
+        LineIterator & operator++() {
+            ++_pointer;
+            return *this;
+        }
 
-			LineIterator operator++(int) {
-				LineIterator tmp(*this);
-				++(*this);
-				return tmp;
-			}
+        LineIterator operator++(int) {
+            LineIterator tmp(*this);
+            ++(*this);
+            return tmp;
+        }
 
-			bool operator==(const LineIterator & other) const {
-				return _poly == other._poly && _pointer == other._pointer;
-			}
+        bool operator==(const LineIterator & other) const {
+            return _poly == other._poly && _pointer == other._pointer;
+        }
 
-			bool operator!=(const LineIterator & other) const {
-				return ! (*this == other);
-			}
+        bool operator!=(const LineIterator & other) const {
+            return ! (*this == other);
+        }
     };
 
     Polygon(int nv) : _nvertexs(nv) {
@@ -77,29 +77,29 @@ public:
     }
 
     friend std::ostream & operator<<(std::ostream &os, const Polygon & poly);
-    
-    void NormalV (){//Solo triangulos
-			 
-			 //Calculo vectores P y Q qye unen los 
-			 //vertices V1V2V3 de un triangulo.
-			 Vector3D P,Q;
-			 P= *_vertexs[1] - *_vertexs[0];
-			 Q= *_vertexs[2] - *_vertexs[0];
 
-			//Vector normal a los vectores P y Q
-			_normal=P.vectorial_product(Q);
-	
-			_normal.normalize();
-			
-	}
+    void NormalV () { //Solo triangulos
 
-	void addNormalToVertexs() {
-		for (std::vector<Vertex3D *>::iterator it = _vertexs.begin(); it != _vertexs.end(); it ++) {
-			(*it)->addNormal(_normal);
-		}
-	}
-    
-    Vector3D getNormal() const{
+        //Calculo vectores P y Q qye unen los
+        //vertices V1V2V3 de un triangulo.
+        Vector3D P,Q;
+        P= *_vertexs[1] - *_vertexs[0];
+        Q= *_vertexs[2] - *_vertexs[0];
+
+        //Vector normal a los vectores P y Q
+        _normal=P.vectorial_product(Q);
+
+        _normal.normalize();
+
+    }
+
+    void addNormalToVertexs() {
+        for (std::vector<Vertex3D *>::iterator it = _vertexs.begin(); it != _vertexs.end(); it ++) {
+            (*it)->addNormal(_normal);
+        }
+    }
+
+    Vector3D getNormal() const {
         return _normal;
     }
 };

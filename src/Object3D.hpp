@@ -16,13 +16,13 @@ private:
     std::vector<Polygon> _polygons;
     std::vector<Vertex3D> _vertexs;
 
-	void calculateAllNormals() {
+    void calculateAllNormals() {
         // TODO es necesario eliminar las normales ya existentes en los vertices!
-		for (std::vector<Polygon>::iterator it = _polygons.begin(); it != _polygons.end(); it++) {
-			it->NormalV();
-			it->addNormalToVertexs();
-		}
-	}
+        for (std::vector<Polygon>::iterator it = _polygons.begin(); it != _polygons.end(); it++) {
+            it->NormalV();
+            it->addNormalToVertexs();
+        }
+    }
 
 public:
     Object3D() {};
@@ -58,7 +58,7 @@ public:
             assert(p.is_valid());
             obj->_polygons.push_back(p);
         }
-		obj->calculateAllNormals();
+        obj->calculateAllNormals();
         std::cout << "Cargados " << nvertexs << " vértices y " << npolys << " polígonos." << std::endl;
         return obj;
     }
@@ -80,7 +80,7 @@ public:
     typename std::vector<Polygon>::const_iterator polys_end() const {
         return _polygons.end();
     }
-    
+
 };
 
 #endif // Object3D_hpp

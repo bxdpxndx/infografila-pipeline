@@ -7,20 +7,20 @@
 
 class Vertex3D {
 private:
-	Vector3D _normal;
+    Vector3D _normal;
 
 public:
     union {
         struct {
             float x, y, z, w;
-               };  
-        float coords[4];        
+        };
+        float coords[4];
     };
 
 
     Vertex3D(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in), w(1) {};
     Vertex3D() : x(0), y(0), z(0), w(1) {};
-		
+
     float get(int i) const {
         return coords[i];
     }
@@ -40,12 +40,12 @@ public:
         z /= w;
         w = 1;
     }
-    
-	void addNormal(const Vector3D & normal) {
-		_normal = _normal + normal;
-	}
 
-	friend std::ostream & operator<<(std::ostream &os, const Vertex3D & v);
+    void addNormal(const Vector3D & normal) {
+        _normal = _normal + normal;
+    }
+
+    friend std::ostream & operator<<(std::ostream &os, const Vertex3D & v);
 };
 
 std::ostream & operator<<(std::ostream &os, const Vertex3D & v)

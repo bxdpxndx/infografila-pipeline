@@ -6,7 +6,7 @@
 
 class FileNotFoundException : public std::exception {
     std::string filename;
-public: 
+public:
     FileNotFoundException (std::string name) throw() : filename(name) {}
     ~FileNotFoundException() throw() {}
 

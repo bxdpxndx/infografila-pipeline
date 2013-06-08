@@ -11,61 +11,61 @@
 class Camera {
 
     Vertex3D _position;
-	
+
     Vertex3D _lookAt;
 
-	Vector3D _cameraDirection;
-	Vector3D _cameraUp;
-	Vector3D _cameraRight;
+    Vector3D _cameraDirection;
+    Vector3D _cameraUp;
+    Vector3D _cameraRight;
 
-	float _cameraAperture;
+    float _cameraAperture;
 
-	float _nearPlane;
+    float _nearPlane;
 
-	float _farPlane;
+    float _farPlane;
 
 
-	/*void setNearPlane(float value) {
-		_nearPlane = value;
-	}
+    /*void setNearPlane(float value) {
+    	_nearPlane = value;
+    }
 
-	void setFarPlane(float value) {
-		_farPlane = value;
-	}
+    void setFarPlane(float value) {
+    	_farPlane = value;
+    }
 
-	void setCameraAperture(float value) {
-		_cameraAperture = value;
-	}*/
+    void setCameraAperture(float value) {
+    	_cameraAperture = value;
+    }*/
 
-	//we set the vector 'Direction' using Direction = lookat - coords
-	void setDirection() {
-		_cameraDirection = _lookAt - _position;
+    //we set the vector 'Direction' using Direction = lookat - coords
+    void setDirection() {
+        _cameraDirection = _lookAt - _position;
         _cameraDirection.normalize();
-	}
+    }
 
-	//we set the vector 'Up' using Up = V - V*N/( normVector(V - V*N) )
-	void setVectorUp() {
-		_cameraUp = Vector3D(0, -1, 0);
+    //we set the vector 'Up' using Up = V - V*N/( normVector(V - V*N) )
+    void setVectorUp() {
+        _cameraUp = Vector3D(0, -1, 0);
         float scale = _cameraUp.dot_product(_cameraDirection);
         Vector3D projection = _cameraDirection * scale;
         _cameraUp = _cameraUp - projection;
-        _cameraUp.normalize();     
-	}
-
-	//we set the vector 'Left' using Left = Direction x Up   )
-    	void setVectorRight() {
-        	_cameraRight = _cameraDirection.vectorial_product(_cameraUp);
-        	_cameraRight.normalize();
+        _cameraUp.normalize();
     }
 
-public: 
+    //we set the vector 'Left' using Left = Direction x Up   )
+    void setVectorRight() {
+        _cameraRight = _cameraDirection.vectorial_product(_cameraUp);
+        _cameraRight.normalize();
+    }
+
+public:
 
     Camera() {};
-	Camera(float x, float y, float z) : _position(x, y, z) {};
+    Camera(float x, float y, float z) : _position(x, y, z) {};
     Camera(Vertex3D v) : _position(v) {};
 
-    Camera & position(float x, float y, float z) { 
-        _position = Vertex3D(x,y,z); 
+    Camera & position(float x, float y, float z) {
+        _position = Vertex3D(x,y,z);
         return *this;
     }
 
@@ -74,16 +74,16 @@ public:
         return *this;
     }
 
-	Camera & lookAt(float x, float y, float z) {
+    Camera & lookAt(float x, float y, float z) {
         _lookAt = Vertex3D(x,y,z);
         return *this;
     }
 
     Camera & lookAt(Vertex3D v) {
-        _lookAt = v; 
+        _lookAt = v;
         return *this;
     }
-    
+
     Camera & calcVectors() {
         setDirection();
         setVectorUp();
@@ -95,17 +95,17 @@ public:
         return _cameraDirection;
     }
 
-	void setNearPlane(float value) {
-		_nearPlane = value;
-	}
+    void setNearPlane(float value) {
+        _nearPlane = value;
+    }
 
-	void setFarPlane(float value) {
-		_farPlane = value;
-	}
+    void setFarPlane(float value) {
+        _farPlane = value;
+    }
 
-	void setCameraAperture(float value) {
-		_cameraAperture = value;
-	}
+    void setCameraAperture(float value) {
+        _cameraAperture = value;
+    }
 
     static Camera fromFile(std::string filename) {
         // TODO Implementar esto, leer de un fichero todas las cosas de
@@ -132,21 +132,21 @@ public:
         return rotation * translation;
     }
 
-	Matrix getProjectionTransform() {
-		Matrix projection;
-		float persp1 = _nearPlane/_cameraAperture;
-		float persp2 = _farPlane - _nearPlane;
-		projection.setElement(persp1,0,0);
-		projection.setElement(persp1,1,1);
-		projection.setElement(_farPlane/persp2,2,2);
-		projection.setElement((_nearPlane*_farPlane*(-1))/persp2,2,3);
-		projection.setElement(1,3,2);
-		return projection;
-	}
-		
+    Matrix getProjectionTransform() {
+        Matrix projection;
+        float persp1 = _nearPlane/_cameraAperture;
+        float persp2 = _farPlane - _nearPlane;
+        projection.setElement(persp1,0,0);
+        projection.setElement(persp1,1,1);
+        projection.setElement(_farPlane/persp2,2,2);
+        projection.setElement((_nearPlane*_farPlane*(-1))/persp2,2,3);
+        projection.setElement(1,3,2);
+        return projection;
+    }
+
 
     friend std::ostream & operator<<(std::ostream &os, const Camera & c);
-    
+
 };
 
 std::ostream & operator<<(std::ostream &os, const Camera & c)

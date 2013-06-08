@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     int height = 512;
     std::string input_file;
     std::string output_file;
-    
+
     if( argc == 3 || argc == 5) {
         input_file = argv[1];
         output_file = argv[2];
