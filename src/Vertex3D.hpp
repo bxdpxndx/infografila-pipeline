@@ -16,7 +16,15 @@ public:
         };
         float coords[4];
     };
-
+    struct compareX {
+        int operator()(const Vertex3D & a, const Vertex3D & b) const { return (b.x - a.x); }
+    };
+    struct compareY {
+        int operator()(const Vertex3D & a, const Vertex3D & b) const { return (b.y - a.y); }
+    };
+    struct compareZ {
+        int operator()(const Vertex3D & a, const Vertex3D & b) const { return (b.z - a.z); }
+    };
 
     Vertex3D(float x_in, float y_in, float z_in) : x(x_in), y(y_in), z(z_in), w(1) {};
     Vertex3D() : x(0), y(0), z(0), w(1) {};

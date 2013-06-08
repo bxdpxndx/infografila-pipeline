@@ -3,13 +3,12 @@
 
 #include "Object3D.hpp"
 #include "Camera.hpp"
-#include "Light.hpp"
 
 class World {
 
     std::vector <Object3D *> _objects;
 
-    Light _lights;
+    Vector3D _light;
     Camera _camera;
 public:
     ~World() {
@@ -22,8 +21,8 @@ public:
         _objects.push_back(obj);
     }
 
-    void set_light(Light l) {
-        _lights = l;
+    void set_light(Vector3D l) {
+        _light = l;
     }
 
     void set_camera(Camera c) {
