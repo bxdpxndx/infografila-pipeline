@@ -2,6 +2,7 @@
 #define Camera_hpp
 
 #include <vector>
+#include <iostream>
 
 #include "Vertex3D.hpp"
 #include "Vector3D.hpp"
@@ -44,7 +45,7 @@ class Camera {
 
 	//we set the vector 'Up' using Up = V - V*N/( normVector(V - V*N) )
 	void setVectorUp() {
-		_cameraUp = Vector3D(0, 1, 0);
+		_cameraUp = Vector3D(0, -1, 0);
         float scale = _cameraUp.dot_product(_cameraDirection);
         Vector3D projection = _cameraDirection * scale;
         _cameraUp = _cameraUp - projection;
@@ -58,9 +59,6 @@ class Camera {
     }
 
 public: 
-
-
-	
 
     Camera() {};
 	Camera(float x, float y, float z) : _position(x, y, z) {};
@@ -93,6 +91,9 @@ public:
         return *this;
     }
 
+    Vector3D getDirection() const {
+        return _cameraDirection;
+    }
 
 	void setNearPlane(float value) {
 		_nearPlane = value;
@@ -106,7 +107,15 @@ public:
 		_cameraAperture = value;
 	}
 
-
+    static Camera fromFile(std::string filename) {
+        // TODO Implementar esto, leer de un fichero todas las cosas de
+        // la cámara y devolverla
+        std::ifstream fe(filename.c_str());
+        if(!fe.is_open()) {
+            throw FileNotFoundException(filename);
+        }
+        return Camera();
+    }
 
     Matrix getCameraTransform() const {
         Matrix rotation = Matrix::identity();

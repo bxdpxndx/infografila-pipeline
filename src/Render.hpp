@@ -25,7 +25,7 @@ class Render {
 private:
     int _width, _height; // in pixels
     Image _image;
-
+    World *_world;
     // wireframe drawing functions
     void draw_line(const Line & l) {
         // sólo usado para dibujar wireframes. algoritmo de bresenham
@@ -44,7 +44,7 @@ private:
         int err = (dx>dy ? dx : -dy)/2;
         int e2;
 
-        Color white(1-l.start->z,1-l.start->z,1-l.start->z);
+        Color white(1, 1, 1);
         for(;;) {
             //std::cout << "  setting pixel " << x0 << " " << y0 << std::endl;
             if ( x0 < 0 || x0 >= _width || y0 < 0 || y0 >= _height ) {
@@ -75,7 +75,11 @@ private:
     void draw_polygon(const Polygon & p);
     void draw_object(const Object3D & o) {
         for (std::vector<Polygon>::const_iterator it = o.polys_begin(); it != o.polys_end(); it ++) {
-            draw_polygon_wireframe(*it);
+
+            // Backface culling!
+            if ( it->getNormal().dot_product(_world->getCameraDirection()) < 0) {
+                draw_polygon_wireframe(*it);
+            }
         }
     }
 
@@ -85,13 +89,19 @@ public:
     Render(int width, int height) : _width(width), _height(height), _image(width, height) {
     };
 
-    void draw (World & w) {
-        w.apply_camera_transform();
-        w.apply_projection_transform();
-        w.transform(Matrix::screenTransform(_width, _height));
-        for (std::vector <Object3D *>::const_iterator it = w.objects_begin(); it != w.objects_end(); it++) {
+    void draw () {
+        // TODO : Juntar todas las matrices y multiplicar una sola vez.
+        // será al menos 3 veces más rápido!
+        _world->apply_camera_transform();
+        _world->apply_projection_transform();
+        _world->transform(Matrix::screenTransform(_width, _height));
+        for (std::vector <Object3D *>::const_iterator it = _world->objects_begin(); it != _world->objects_end(); it++) {
             draw_object(**it);
         }
+    }
+
+    void setWorld(World * w) {
+        _world = w;
     }
 
     void saveTGA(char * filename) {

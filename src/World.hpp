@@ -44,6 +44,10 @@ public:
         }
     }
 
+    Vector3D getCameraDirection() const {
+        return _camera.getDirection();
+    }
+
     // expose the objects
     std::vector<Object3D *>::const_iterator objects_begin() {
         return _objects.begin();

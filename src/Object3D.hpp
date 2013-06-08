@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Polygon.hpp"
+#include "Exception.hpp"
 
 
 // Object3Ds actually own Vertexs and Polygons. other classes just have
@@ -16,7 +17,8 @@ private:
     std::vector<Vertex3D> _vertexs;
 
 	void calculateAllNormals() {
-		for( std::vector<Polygon>::iterator it = _polygons.begin(); it != _polygons.end(); it++) {
+        // TODO es necesario eliminar las normales ya existentes en los vertices!
+		for (std::vector<Polygon>::iterator it = _polygons.begin(); it != _polygons.end(); it++) {
 			it->NormalV();
 			it->addNormalToVertexs();
 		}
@@ -27,11 +29,12 @@ public:
 
     // Object3D uses factory methods.
     static Object3D * from_file(std::string filename) {
-        Object3D * obj = new Object3D;
         std::ifstream fe(filename.c_str());
         if(!fe.is_open()) {
-            std::cout << "-!- error abriendo el fichero " << filename << std::endl;
+            throw FileNotFoundException(filename);
         }
+
+        Object3D * obj = new Object3D;
         int nvertexs, npolys;
         fe >> nvertexs >> npolys;
 
@@ -62,10 +65,11 @@ public:
 
     void apply_matrix_transform(const Matrix & matrix) {
         std::cout << matrix << std::endl;
-        for( std::vector<Vertex3D>::iterator it = _vertexs.begin(); it != _vertexs.end(); it++) {
+        for(std::vector<Vertex3D>::iterator it = _vertexs.begin(); it != _vertexs.end(); it++) {
             *it = matrix * (*it);
             it->project();
         }
+        calculateAllNormals();
     }
 
     // expose the polygons

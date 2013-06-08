@@ -98,7 +98,10 @@ public:
 			(*it)->addNormal(_normal);
 		}
 	}
-
+    
+    Vector3D getNormal() const{
+        return _normal;
+    }
 };
 
 std::ostream & operator<<(std::ostream & os, const Polygon& poly) {

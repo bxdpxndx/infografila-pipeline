@@ -42,16 +42,17 @@ int main(int argc, char *argv[])
     Light light;
     Camera camera;
 
-    camera.position(-1, -1, -1).lookAt(0.5,0.5,0.5).calcVectors();
-    camera.setNearPlane(0.5);
-    camera.setFarPlane(1);
-    camera.setCameraAperture(0.5);
+    camera.position(4, 0.5, 2).lookAt(0.5,0.5,0.5).calcVectors();
+    camera.setNearPlane(3);
+    camera.setFarPlane(1000);
+    camera.setCameraAperture(1);
 
     w.set_light(light);
     w.set_camera(camera);
 
     Render r(width,height);
-    r.draw(w);
+    r.setWorld(&w);
+    r.draw();
 
     r.saveTGA(argv[2]);
 
