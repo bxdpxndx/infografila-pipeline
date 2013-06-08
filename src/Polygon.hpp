@@ -21,6 +21,8 @@ private:
 
 public:
 
+    friend class Render;
+
     class LineIterator {
     private:
         const Polygon * const _poly;
@@ -29,7 +31,11 @@ public:
         LineIterator(const Polygon * const poly, int start) : _poly(poly), _pointer(start) {};
 
         Line operator*() const {
-            return Line(_poly->_vertexs[_pointer], _poly->_vertexs[(1 + _pointer) % _poly->_nvertexs]);
+            Line l(_poly->_vertexs[_pointer], _poly->_vertexs[(1 + _pointer) % _poly->_nvertexs]);
+            if(l.start->y > l.end->y) {
+                std::swap(l.start, l.end);
+            }
+            return l;
         }
 
         LineIterator & operator++() {
@@ -80,17 +86,14 @@ public:
 
     void NormalV () { //Solo triangulos
 
-        //Calculo vectores P y Q qye unen los
+        //Calculo vectores P y Q que unen los
         //vertices V1V2V3 de un triangulo.
         Vector3D P,Q;
-        P= *_vertexs[1] - *_vertexs[0];
-        Q= *_vertexs[2] - *_vertexs[0];
-
+        P= *_vertexs[0] - *_vertexs[1];
+        Q= *_vertexs[1] - *_vertexs[2];
         //Vector normal a los vectores P y Q
-        _normal=P.vectorial_product(Q);
-
+        _normal = P.vectorial_product(Q);
         _normal.normalize();
-
     }
 
     void addNormalToVertexs() {
@@ -102,15 +105,31 @@ public:
     Vector3D getNormal() const {
         return _normal;
     }
+
+    float get_lowest_point() const {
+        float low = _vertexs[0]->y;
+        for(std::vector<Vertex3D *>::const_iterator it = _vertexs.begin(); it != _vertexs.end(); it ++) {
+            if ((*it)->y < low) {
+                low = (*it)->y;
+            }
+        }
+        return low;
+    }
+
+    float get_highest_point() const {
+        float high = _vertexs[0]->y;
+        for(std::vector<Vertex3D *>::const_iterator it = _vertexs.begin(); it != _vertexs.end(); it ++) {
+            if ((*it)->y > high) {
+                high = (*it)->y;
+            }
+        }
+        return high;
+    }
 };
 
 std::ostream & operator<<(std::ostream & os, const Polygon& poly) {
     os << "Polígono de " << poly._nvertexs << " lados:" << std::endl;
     os << "Normal: " << poly._normal << std::endl;
-
-    for(unsigned i=0; i < poly._vertexs.size(); ++i) {
-        os << "  " << *(poly._vertexs[i]) << std::endl;
-    }
     return os;
 }
 

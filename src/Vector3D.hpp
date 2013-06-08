@@ -52,11 +52,12 @@ public:
                        );
     }
 
-    void normalize() {
+    Vector3D & normalize() {
         float l = length();
         x /= l;
         y /= l;
         z /= l;
+        return *this;
     }
 };
 

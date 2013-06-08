@@ -4,8 +4,6 @@
 #include <iostream>
 
 #include "Vertex3D.hpp"
-#include "Matrix.hpp"
-
 
 class Line {
 // Sólo un par de Vértices.
@@ -15,9 +13,8 @@ public:
 
     Line(Vertex3D *st, Vertex3D *en) : start(st), end(en) {};
 
-    void transform(Matrix m) {
-        *start = m * (*start);
-        *end = m * (*end);
+    float getStepness() {
+        return (end->x - start->x) / (end->y - start->y);
     }
 
     friend std::ostream & operator<<(std::ostream & os, const Line & l) {
@@ -26,6 +23,5 @@ public:
     }
 };
 
-
-
 #endif // Line_hpp
+
