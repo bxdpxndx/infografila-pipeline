@@ -20,7 +20,7 @@ private:
 
 
 public:
-
+    
     friend class Render;
 
     class LineIterator {
@@ -32,7 +32,7 @@ public:
 
         Line operator*() const {
             Line l(_poly->_vertexs[_pointer], _poly->_vertexs[(1 + _pointer) % _poly->_nvertexs]);
-            if(l.start->y > l.end->y) {
+            if (l.start->y > l.end->y) {
                 std::swap(l.start, l.end);
             }
             return l;
@@ -86,14 +86,17 @@ public:
 
     void NormalV () { //Solo triangulos
 
-        //Calculo vectores P y Q que unen los
+        //Calculo vectores P y Q qye unen los
         //vertices V1V2V3 de un triangulo.
         Vector3D P,Q;
-        P= *_vertexs[0] - *_vertexs[1];
-        Q= *_vertexs[1] - *_vertexs[2];
+        P= *_vertexs[1] - *_vertexs[0];
+        Q= *_vertexs[2] - *_vertexs[0];
+
         //Vector normal a los vectores P y Q
-        _normal = P.vectorial_product(Q);
+        _normal=P.vectorial_product(Q);
+
         _normal.normalize();
+
     }
 
     void addNormalToVertexs() {
@@ -130,6 +133,10 @@ public:
 std::ostream & operator<<(std::ostream & os, const Polygon& poly) {
     os << "Polígono de " << poly._nvertexs << " lados:" << std::endl;
     os << "Normal: " << poly._normal << std::endl;
+
+    for(unsigned i=0; i < poly._vertexs.size(); ++i) {
+        os << "  " << *(poly._vertexs[i]) << std::endl;
+    }
     return os;
 }
 

@@ -18,7 +18,7 @@ public:
     }
 
     friend std::ostream & operator<<(std::ostream & os, const Line & l) {
-        os << *(l.start) << " - " << *(l.end);
+        os << *(l.start) << "-" << *(l.end);
         return os;
     }
 };

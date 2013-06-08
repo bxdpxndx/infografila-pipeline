@@ -1,7 +1,6 @@
 #ifndef Render_hpp
 #define Render_hpp
 #include <cassert>
-#include <algorithm>
 
 #include "image.hpp"
 #include "Line.hpp"
@@ -9,8 +8,6 @@
 #include "Object3D.hpp"
 #include "World.hpp"
 #include "Matrix.hpp"
-
-#include "Utils.hpp"
 
 class Render {
 // Takes points in 3d screen space and draws them to an image.
@@ -22,7 +19,7 @@ class Render {
 
 // Better line-drawing algorithm. DONE
 // drawing polygons (wireframe). DONE
-// drawing polygons(filled). working on it - ferran
+// drawing polygons(filled).
 // shading.
 // z-buffer rendering.
 
@@ -50,9 +47,9 @@ private:
 
         Color white(1, 1, 1);
         for(;;) {
-            // std::cout << "  setting pixel " << x0 << " " << y0 << std::endl;
+            //std::cout << "  setting pixel " << x0 << " " << y0 << std::endl;
             if ( x0 < 0 || x0 >= _width || y0 < 0 || y0 >= _height ) {
-                ; 
+                ;
             }
             else {
                 _image.setPixel(white, x0, y0);
@@ -81,13 +78,10 @@ private:
         int highest = p.get_highest_point();
         int delta = highest-lowest;
         std::vector<std::vector<int> > borders(delta+1, std::vector<int>());
-
-        float value = p.getNormal().dot_product(_world->_light);
-        Color color(value,value,value);
+        Color color(1, 1, 1);
         // get the edges.
         for (Polygon::LineIterator it = p.lines_begin(); it != p.lines_end(); it++) {
             float steepness = (*it).getStepness();
-
             for (int i = (int) ((*it).start->y) + 1; i <= ((int) ((*it).end->y)); i++) {
                 borders[i - lowest].push_back( (*it).start->x + (steepness * (i - (*it).start->y) - 1));
             }
@@ -98,7 +92,6 @@ private:
             std::sort(borders[i].begin(), borders[i].end());
             for (unsigned j = 0; j < borders[i].size()/2; j++) {
                 for(int k = borders[i][j]; k < borders[i][j+1]; k++) {
-                    std::cout << i << " " << borders[i][j] << " " << borders[i][j+1] << std::endl;
                     _image.setPixel(color, k , i + lowest);
                 }
             }
@@ -110,7 +103,7 @@ private:
 
             // Backface culling!
             if ( it->getNormal().dot_product(_world->getCameraDirection()) < 0) {
-                draw_polygon_wireframe(*it);
+                draw_polygon(*it);
             }
         }
     }
@@ -122,14 +115,10 @@ public:
     };
 
     void draw () {
-        std::cout << _world->_camera << std::endl;
-        
-        Matrix camera = _world->_camera.getCameraTransform();
-        Matrix projection = _world->_camera.getProjectionTransform();
-        
-        _world->transform(camera);
-        _world->transform(projection);
-        _world->calculateAllNormals();
+        // TODO : Juntar todas las matrices y multiplicar una sola vez.
+        // será al menos 3 veces más rápido!
+        _world->apply_camera_transform();
+        _world->apply_projection_transform();
         _world->transform(Matrix::screenTransform(_width, _height));
         for (std::vector <Object3D *>::const_iterator it = _world->_objects.begin(); it != _world->_objects.end(); it++) {
             draw_object(**it);
