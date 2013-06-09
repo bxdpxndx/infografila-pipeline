@@ -78,9 +78,15 @@ private:
         int highest = p.get_highest_point();
         int delta = highest-lowest;
         std::vector<std::vector<int> > borders(delta+1, std::vector<int>());
+		
+        float shade = _world->_camera.getDirection().dot_product(p._normal);
+		
+		// for every I, I = Ia * Ka + Id * Kd * shade, where ka+kd+ks = 1;
+		float Ir = 0.6*0.3 + 0.7*0.7*shade;
+		float Ig = 0.6*0.6 + 0.7*0.5*shade;
+		float Ib = 0.6*0.4 + 0.7*0.6*shade;
+        Color color(Ir, Ig, Ib);
 
-        float shade = 0.2 - _world->_camera.getDirection().dot_product(p._normal);
-        Color color(shade, shade, shade);
         // get the edges.
         for (Polygon::LineIterator it = p.lines_begin(); it != p.lines_end(); it++) {
             float steepness = (*it).getStepness();

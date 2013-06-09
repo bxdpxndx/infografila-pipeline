@@ -24,19 +24,6 @@ class Camera {
 
     float _farPlane;
 
-
-    /*void setNearPlane(float value) {
-    	_nearPlane = value;
-    }
-
-    void setFarPlane(float value) {
-    	_farPlane = value;
-    }
-
-    void setCameraAperture(float value) {
-    	_cameraAperture = value;
-    }*/
-
     //we set the vector 'Direction' using Direction = lookat - coords
     void setDirection() {
         _cameraDirection = _lookAt - _position;
