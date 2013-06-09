@@ -9,6 +9,9 @@
 #include "World.hpp"
 #include "Matrix.hpp"
 
+#include "Shader.hpp"
+#include "ShaderGroup.hpp"
+
 class Render {
 // Takes points in 3d screen space and draws them to an image.
 // 3d screen space is: x and y in the range -1, 1.
@@ -26,6 +29,7 @@ class Render {
 private:
     int _width, _height; // in pixels
     Image _image;
+    Shader *_shader;
     World *_world;
     // wireframe drawing functions
     void draw_line(const Line & l) {
@@ -74,43 +78,14 @@ private:
     }
 
     void draw_polygon(const Polygon & p) {
-        int lowest = p.get_lowest_point();
-        int highest = p.get_highest_point();
-        int delta = highest-lowest;
-        std::vector<std::vector<int> > borders(delta+1, std::vector<int>());
-		
-        float shade = _world->_camera.getDirection().dot_product(p._normal);
-		
-		// for every I, I = Ia * Ka + Id * Kd * shade, where ka+kd+ks = 1;
-		float Ir = 0.6*0.3 + 0.7*0.7*shade;
-		float Ig = 0.6*0.6 + 0.7*0.5*shade;
-		float Ib = 0.6*0.4 + 0.7*0.6*shade;
-        Color color(Ir, Ig, Ib);
-
-        // get the edges.
-        for (Polygon::LineIterator it = p.lines_begin(); it != p.lines_end(); it++) {
-            float steepness = (*it).getStepness();
-            for (int i = (int) ((*it).start->y) + 1; i <= ((int) ((*it).end->y)); i++) {
-                borders[i - lowest].push_back( (*it).start->x + (steepness * (i - (*it).start->y) - 1));
-            }
-        }
-
-        // sort the edges and fill.
-        for (unsigned i = 0; i < borders.size(); i++) {
-            std::sort(borders[i].begin(), borders[i].end());
-            for (unsigned j = 0; j < borders[i].size()/2; j++) {
-                for(int k = borders[i][j]; k < borders[i][j+1]; k++) {
-                    _image.setPixel(color, k , i + lowest);
-                }
-            }
-        }  
+        _shader->draw_polygon(_image, p, _world->_light);
     }
 
     void draw_object(const Object3D & o) {
         for (std::vector<Polygon>::const_iterator it = o._polygons.begin(); it != o._polygons.end(); it ++) {
 
             // Backface culling!
-            if ( it->getNormal().dot_product(_world->getCameraDirection()) < 0) {
+            if ( it->getNormal().dot_product(_world->getCameraDirection()) > 0) {
                 draw_polygon(*it);
             }
         }
@@ -120,6 +95,7 @@ private:
 
 public:
     Render(int width, int height) : _width(width), _height(height), _image(width, height) {
+        _shader = ShaderGroup::instance().getShader("flat");
     };
 
     void draw () {

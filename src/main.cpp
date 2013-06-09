@@ -39,12 +39,12 @@ int main(int argc, char *argv[])
     w.add_object(obj);
 
 // TODO: Implementar Light y Camera :3
-    Vector3D light = Vector3D(-1, 1, 0).normalize();
+    Vector3D light = Vector3D(0, -1, 0).normalize();
     Camera camera;
 
-    camera.position(1, 0.5, 3).lookAt(0.5,0.5,0.5).calcVectors();
-    camera.setNearPlane(3);
-    camera.setFarPlane(100000);
+    camera.position(4, -1, -2).lookAt(0.5,0.5,0.5).calcVectors();
+    camera.setNearPlane(2);
+    camera.setFarPlane(20);
     camera.setCameraAperture(1);
 
     w.set_light(light);

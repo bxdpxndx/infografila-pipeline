@@ -106,34 +106,31 @@ public:
 
     Matrix getCameraTransform() const {
         Matrix rotation = Matrix::identity();
+        Matrix translation = Matrix::identity();
         for(int i = 0; i < 3; i++) {
             rotation.setElement(_cameraRight.get(i), 0, i);
             rotation.setElement(_cameraUp.get(i), 1, i);
             rotation.setElement(_cameraDirection.get(i), 2, i);
-        }
 
-        Matrix translation = Matrix::identity();
-        for (int i = 0; i < 3; i++) {
             translation.setElement(-_position.get(i), i, 3);
         }
+
         return rotation * translation;
     }
 
     Matrix getProjectionTransform() {
         Matrix projection;
         float persp1 = _nearPlane/_cameraAperture;
-        float persp2 = _farPlane - _nearPlane;
-        projection.setElement(persp1,0,0);
-        projection.setElement(persp1,1,1);
-        projection.setElement(_farPlane/persp2,2,2);
-        projection.setElement((_nearPlane*_farPlane*(-1))/persp2,2,3);
-        projection.setElement(1,3,2);
+        float depth = _farPlane - _nearPlane;
+        projection.setElement(persp1, 0, 0);
+        projection.setElement(persp1, 1, 1);
+        projection.setElement(_farPlane/depth, 2, 2);
+        projection.setElement((_nearPlane*_farPlane*(-1))/depth, 2, 3);
+        projection.setElement(1, 3, 2);
         return projection;
     }
 
-
     friend std::ostream & operator<<(std::ostream &os, const Camera & c);
-
 };
 
 std::ostream & operator<<(std::ostream &os, const Camera & c)

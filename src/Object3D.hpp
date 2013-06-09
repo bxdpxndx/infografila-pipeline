@@ -8,7 +8,6 @@
 #include "Exception.hpp"
 #include "Matrix.hpp"
 
-
 // Object3Ds actually own Vertexs and Polygons. other classes just have
 // pointers to here.
 class Object3D {
@@ -37,7 +36,8 @@ public:
         float x, y, z;
         for (int i = 0; i < nvertexs; i++) {
             fe >> x >> y >> z;
-            Vertex3D v(x,y,z);
+            // rotate the object on load
+            Vertex3D v(x,z,y);
             obj->_vertexs.push_back(v);
         }
 

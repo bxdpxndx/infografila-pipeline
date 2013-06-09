@@ -20,9 +20,6 @@ private:
 
 
 public:
-    
-    friend class Render;
-
     class LineIterator {
     private:
         const Polygon * const _poly;
@@ -89,8 +86,8 @@ public:
         //Calculo vectores P y Q qye unen los
         //vertices V1V2V3 de un triangulo.
         Vector3D P,Q;
-        P= *_vertexs[1] - *_vertexs[0];
-        Q= *_vertexs[2] - *_vertexs[0];
+        P= *_vertexs[0] - *_vertexs[1];
+        Q= *_vertexs[2] - *_vertexs[1];
 
         //Vector normal a los vectores P y Q
         _normal=P.vectorial_product(Q);
