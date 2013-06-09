@@ -33,11 +33,7 @@ public:
     }
 
     void apply_camera_transform() {
-        transform(_camera.getCameraTransform());
-    }
-
-    void apply_projection_transform() {
-        transform(_camera.getProjectionTransform());
+        transform(_camera.getProjectionTransform() * _camera.getCameraTransform());
     }
 
     void transform(const Matrix & matrix) {
@@ -45,18 +41,14 @@ public:
             (*it)->apply_matrix_transform(matrix);
         }
     }
+    void recalculate_normals() {
+        for (std::vector<Object3D *>::iterator it = _objects.begin(); it != _objects.end(); it++) {
+            (*it)->calculateAllNormals();
+        }
+    }
 
     Vector3D getCameraDirection() const {
         return _camera.getDirection();
-    }
-
-    // expose the objects
-    std::vector<Object3D *>::const_iterator objects_begin() {
-        return _objects.begin();
-    }
-
-    std::vector<Object3D *>::const_iterator objects_end() {
-        return _objects.end();
     }
 };
 

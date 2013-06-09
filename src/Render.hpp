@@ -78,7 +78,9 @@ private:
         int highest = p.get_highest_point();
         int delta = highest-lowest;
         std::vector<std::vector<int> > borders(delta+1, std::vector<int>());
-        Color color(1, 1, 1);
+
+        float shade = 0.2 - _world->_camera.getDirection().dot_product(p._normal);
+        Color color(shade, shade, shade);
         // get the edges.
         for (Polygon::LineIterator it = p.lines_begin(); it != p.lines_end(); it++) {
             float steepness = (*it).getStepness();
@@ -115,10 +117,9 @@ public:
     };
 
     void draw () {
-        // TODO : Juntar todas las matrices y multiplicar una sola vez.
-        // será al menos 3 veces más rápido!
+
         _world->apply_camera_transform();
-        _world->apply_projection_transform();
+        _world->recalculate_normals();
         _world->transform(Matrix::screenTransform(_width, _height));
         for (std::vector <Object3D *>::const_iterator it = _world->_objects.begin(); it != _world->_objects.end(); it++) {
             draw_object(**it);

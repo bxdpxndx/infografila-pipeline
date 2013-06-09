@@ -17,13 +17,6 @@ private:
     std::vector<Polygon> _polygons;
     std::vector<Vertex3D> _vertexs;
 
-    void calculateAllNormals() {
-        // TODO es necesario eliminar las normales ya existentes en los vertices!
-        for (std::vector<Polygon>::iterator it = _polygons.begin(); it != _polygons.end(); it++) {
-            it->NormalV();
-            it->addNormalToVertexs();
-        }
-    }
 
 public:
     
@@ -71,8 +64,19 @@ public:
             *it = matrix * (*it);
             it->project();
         }
-        calculateAllNormals();
+    }
+
+    void calculateAllNormals() {
+        for(std::vector<Vertex3D>::iterator it = _vertexs.begin(); it != _vertexs.end(); it++) {
+            it->_normal = Vector3D(0, 0, 0);
+        }
+
+        for (std::vector<Polygon>::iterator it = _polygons.begin(); it != _polygons.end(); it++) {
+            it->NormalV();
+            it->addNormalToVertexs();
+        }
     }
 };
 
 #endif // Object3D_hpp
+
