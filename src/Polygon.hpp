@@ -79,21 +79,18 @@ public:
         return LineIterator(this, _nvertexs);
     }
 
-    friend std::ostream & operator<<(std::ostream &os, const Polygon & poly);
 
-    void NormalV () { //Solo triangulos
+    void NormalV () {
 
-        //Calculo vectores P y Q qye unen los
+        //Calculo vectores P y Q que unen los
         //vertices V1V2V3 de un triangulo.
         Vector3D P,Q;
-        P= *_vertexs[0] - *_vertexs[1];
-        Q= *_vertexs[2] - *_vertexs[1];
+        P = *_vertexs[1] - *_vertexs[0];
+        Q = *_vertexs[1] - *_vertexs[2];
 
-        //Vector normal a los vectores P y Q
-        _normal=P.vectorial_product(Q);
-
+        //Vector normal es perpendicular a los vectores P y Q
+        _normal = P.vectorial_product(Q);
         _normal.normalize();
-
     }
 
     void addNormalToVertexs() {
@@ -125,6 +122,7 @@ public:
         }
         return high;
     }
+    friend std::ostream & operator<<(std::ostream &os, const Polygon & poly);
 };
 
 std::ostream & operator<<(std::ostream & os, const Polygon& poly) {
@@ -140,3 +138,4 @@ std::ostream & operator<<(std::ostream & os, const Polygon& poly) {
 
 
 #endif //Polygon_hpp
+

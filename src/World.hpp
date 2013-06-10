@@ -37,6 +37,7 @@ public:
     }
 
     void transform(const Matrix & matrix) {
+        // do something with the light direction
         for (std::vector<Object3D *>::iterator it = _objects.begin(); it != _objects.end(); it++) {
             (*it)->apply_matrix_transform(matrix);
         }

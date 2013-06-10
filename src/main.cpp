@@ -16,36 +16,33 @@ int main(int argc, char *argv[])
     int height = 512;
     std::string input_file;
     std::string output_file;
+    std::string cam_file;
 
-    if( argc == 3 || argc == 5) {
+    if( argc == 4 || argc == 6) {
         input_file = argv[1];
-        output_file = argv[2];
+        cam_file = argv[2];
+        output_file = argv[3];
     }
 
     else {
-        std::cerr << "Missing arguments: Usage " << argv[0] << " <object file> <output filename> [width height]" << std::endl;
+        std::cerr << "Missing arguments: Usage " << argv[0] << " <object file> <camera file > <output filename> [width height]" << std::endl;
         return 0;
     }
 
-    if (argc == 5) {
-        std::stringstream(argv[3]) >> width;
-        std::stringstream(argv[4]) >> height;
+    if (argc == 6) {
+        std::stringstream(argv[4]) >> width;
+        std::stringstream(argv[5]) >> height;
     }
 
 
     World w;
 
-    Object3D * obj = Object3D::from_file(argv[1]);
+    Object3D * obj = Object3D::from_file(input_file);
     w.add_object(obj);
 
 // TODO: Implementar Light y Camera :3
-    Vector3D light = Vector3D(0, -1, 0).normalize();
-    Camera camera;
-
-    camera.position(2, -1, -1).lookAt(0.5,0.5,0.5).calcVectors();
-    camera.setNearPlane(2);
-    camera.setFarPlane(20);
-    camera.setCameraAperture(1);
+    Vector3D light = Vector3D(-1, -1, -1).normalize();
+    Camera camera = Camera::from_file(cam_file);
 
     w.set_light(light);
     w.set_camera(camera);
@@ -54,6 +51,6 @@ int main(int argc, char *argv[])
     r.setWorld(&w);
     r.draw();
 
-    r.saveTGA(argv[2]);
+    r.saveTGA(output_file);
 
 }

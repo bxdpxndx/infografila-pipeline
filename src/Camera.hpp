@@ -94,14 +94,25 @@ public:
         _cameraAperture = value;
     }
 
-    static Camera fromFile(std::string filename) {
+    static Camera from_file(std::string filename) {
         // TODO Implementar esto, leer de un fichero todas las cosas de
         // la cámara y devolverla
         std::ifstream fe(filename.c_str());
         if(!fe.is_open()) {
+            std::cout << "Camera not found " << std::endl;
             throw FileNotFoundException(filename);
         }
-        return Camera();
+        Camera c;
+        float x, y, z;
+        fe >> x >> y >> z;
+        c._position = Vertex3D(x,y,z);
+        fe >> x >> y >> z;
+        c._lookAt = Vertex3D(x,y,z);
+        c._nearPlane = 3;
+        c._farPlane = 20;
+        c._cameraAperture = 1;       
+        c.calcVectors(); 
+        return c;
     }
 
     Matrix getCameraTransform() const {
@@ -114,12 +125,11 @@ public:
 
             translation.setElement(-_position.get(i), i, 3);
         }
-
         return rotation * translation;
     }
 
     Matrix getProjectionTransform() {
-        Matrix projection;
+        Matrix projection = Matrix::identity();
         float persp1 = _nearPlane/_cameraAperture;
         float depth = _farPlane - _nearPlane;
         projection.setElement(persp1, 0, 0);

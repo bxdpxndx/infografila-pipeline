@@ -259,11 +259,11 @@ public:
     }
 
     // Saves the image to a TGA file
-    bool saveTGA(const char* filename)
+    bool saveTGA(const std::string & filename)
     {
         unsigned char TGAheader[12] = {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-        FILE *file = fopen(filename, "wb");
+        FILE *file = fopen(filename.c_str(), "wb");
         if ( file == NULL )
         {
             fclose(file);

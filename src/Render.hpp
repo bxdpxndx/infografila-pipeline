@@ -85,7 +85,7 @@ private:
         for (std::vector<Polygon>::const_iterator it = o._polygons.begin(); it != o._polygons.end(); it ++) {
 
             // Backface culling!
-            if ( it->getNormal().dot_product(_world->getCameraDirection()) > 0) {
+            if ( it->getNormal().dot_product(Vector3D(0, 0, 1)) > 0) {
                 draw_polygon(*it);
             }
         }
@@ -112,7 +112,7 @@ public:
         _world = w;
     }
 
-    void saveTGA(char * filename) {
+    void saveTGA(const std::string & filename) {
         _image.saveTGA(filename);
     }
 };
