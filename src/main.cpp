@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     Vector3D light = Vector3D(0, -1, 0).normalize();
     Camera camera;
 
-    camera.position(4, -1, -2).lookAt(0.5,0.5,0.5).calcVectors();
+    camera.position(2, -1, -1).lookAt(0.5,0.5,0.5).calcVectors();
     camera.setNearPlane(2);
     camera.setFarPlane(20);
     camera.setCameraAperture(1);

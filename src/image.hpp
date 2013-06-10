@@ -90,6 +90,7 @@ public:
     unsigned int width;
     unsigned int height;
     Color* pixels;
+    float* z_buffer;
 
     /* CONSTRUCTORS */
     Image() {
@@ -103,40 +104,55 @@ public:
         this->width = width;
         this->height = height;
         pixels = new Color[width*height];
+        z_buffer = new float[width*height];
         memset(pixels, 0, width * height * sizeof(Color));
+        memset(z_buffer, 0, width * height * sizeof(float));
     }
 
     //copy constructor
     Image(const Image& c) {
         pixels = NULL;
+        z_buffer = NULL;
         width = c.width;
         height = c.height;
         if(c.pixels)
         {
             pixels = new Color[width*height];
+            z_buffer = new float[width*height];           
             memcpy(pixels, c.pixels, width*height*sizeof(Color));
+            memcpy(z_buffer, c.z_buffer, width * height * sizeof(float));
+            
         }
     }
 
     //assign operator
     Image& operator = (const Image& c)
     {
-        if(pixels) delete [] pixels;
-        pixels = NULL;
+        if(pixels) {
+            delete [] pixels;
+            pixels = NULL;
+            delete [] z_buffer;
+            z_buffer = NULL;
+        }
 
         width = c.width;
         height = c.height;
         if(c.pixels)
         {
             pixels = new Color[width*height*sizeof(Color)];
+            z_buffer = new float[width*height];           
             memcpy(pixels, c.pixels, width*height*sizeof(Color));
+            memcpy(z_buffer, c.z_buffer, width * height * sizeof(float));
         }
         return *this;
     }
 
     ~Image()
     {
-        if(pixels) delete [] pixels;
+        if(pixels) {
+            delete [] pixels;
+            delete [] z_buffer;
+        }
     }
 
     //get the pixel at position x,y
@@ -151,87 +167,17 @@ public:
         pixels[ y * width + x ] = c;
     }
 
-    //change image size (the old one will remain in the top-left corner)
-    void resize(unsigned int width, unsigned int height)
-    {
-        Color* new_pixels = new Color[width*height];
-        unsigned int min_width = this->width > width ? width : this->width;
-        unsigned int min_height = this->height > height ? height : this->height;
-
-        for(unsigned int x = 0; x < min_width; ++x)
-            for(unsigned int y = 0; y < min_height; ++y)
-                new_pixels[ y * width + x ] = getPixel(x,y);
-
-        delete [] pixels;
-        this->width = width;
-        this->height = height;
-        pixels = new_pixels;
-    }
-
-    //flip the image top-down
-    void flipY()
-    {
-        for(unsigned int x = 0; x < width; ++x)
-            for(unsigned int y = 0; y < height * 0.5; ++y)
-            {
-                Color temp = getPixel(x, height - y - 1);
-                setPixel( getPixel(x,y), x, height - y - 1);
-                setPixel( temp, x, y );
-            }
-    }
-
-    //flip the image left-right
-    void flipX()
-    {
-        for(unsigned int x = 0; x < width * 0.5; ++x)
-        {
-            for(unsigned int y = 0; y < height; ++y)
-            {
-                Color temp = getPixel(width - x - 1, y);
-                setPixel( getPixel(x,y), width - x - 1, y);
-                setPixel( temp, x, y );
-            }
+    bool setPixelWithDepthTest(const Color& c, unsigned int x, unsigned int y, float z) {
+        // lower is closer. Returns whether the pixel was painted or not.
+        if (z < z_buffer[ y * width + x ]) {
+            setPixel(c, x, y);
+            z_buffer[ y * width + x ] = z;
+            return true;
         }
+        return false;
     }
 
-    void transpose()
-    {
-        if(pixels == NULL) return;
-        Color *new_pixels = new Color[width*height];
-        for(unsigned int x = 0; x < width; x++)
-        {
-            for(unsigned int y = 0; y < height; y++)
-            {
-                new_pixels[ x * height + y ] = getPixel(x,y);
-            }
-        }
-        unsigned int tmp = height;
-        height = width;
-        width = tmp;
-        delete [] pixels;
-        pixels = new_pixels;
-    }
-
-    //fill the image with the color C
-    void fill(const Color& c)
-    {
-        for(unsigned int pos = 0; pos < width*height; ++pos)
-            pixels[pos] = c;
-    }
-
-    //returns a new image with the area from (startx,starty) of size width,height
-    Image getArea(unsigned int start_x, unsigned int start_y, unsigned int width, unsigned int height)
-    {
-        Image result(width, height);
-        for(unsigned int x = 0; x < width; ++x)
-            for(unsigned int y = 0; y < height; ++x)
-            {
-                if( (x + start_x) < this->width && (y + start_y) < this->height)
-                    result.setPixel( getPixel(x + start_x,y + start_y), x, y);
-            }
-        return result;
-    }
-
+    
     bool isInBounds(unsigned x, unsigned y) {
         return ( x >= 0 && x < width && y >= 0 && y < height);
     }
