@@ -13,10 +13,10 @@
 #include "Poly_borders.hpp"
 #include "Utils.hpp"
 
-class PhongShader : public Shader{
+class PhongShader : public Shader {
 
 public:
-    void draw_polygon(Image & im, const Polygon & p, const Vector3D & light) const{
+    void draw_polygon(Image & im, const Polygon & p, const Vector3D & light) const {
 
         Poly_borders borders(p);
         int lowest = p.get_lowest_point();
@@ -31,13 +31,15 @@ public:
                         float interp = reverse_interpolate(start.x, end.x, k);
                         float depth = interpolate(start.z, end.z, interp);
                         Vector3D normal = interpolate(start.normal, end.normal, interp);
-                        Color color(0.2 + normal.dot_product(light));
+                        float value = normal.dot_product(light);
+                        value = value > 0? value + 0.2: 0.2;
+                        Color color(value);
                         im.setPixelWithDepthTest(color, k , i + lowest, depth - 2.0);
                     }
                 }
 
             }
-        }  
+        }
     }
 };
 

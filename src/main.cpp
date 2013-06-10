@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     Object3D * obj = Object3D::from_file(input_file);
     w.add_object(obj);
 
-    
+
     Vector3D light = Vector3D(-1, -1, 1).normalize();
     Camera camera = Camera::from_file(cam_file);
 
@@ -48,9 +48,10 @@ int main(int argc, char *argv[])
     w.set_camera(camera);
 
     Render r(width,height);
+    std::cout << "Drawing image to the buffer..." << std::endl;
     r.setWorld(&w);
     r.draw();
-
+    std::cout << "Savingimage to file..." << std::endl;
     r.saveTGA(output_file);
 
 }

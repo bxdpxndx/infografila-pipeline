@@ -18,7 +18,7 @@ private:
 
 
 public:
-    
+
     friend class Render;
     Object3D() {};
 
@@ -61,7 +61,7 @@ public:
     void apply_matrix_transform(const Matrix & matrix) {
         for(std::vector<Vertex3D>::iterator it = _vertexs.begin(); it != _vertexs.end(); it++) {
             *it = matrix * (*it);
-            
+
             it->project();
         }
     }
@@ -77,7 +77,7 @@ public:
             it->NormalV();
             it->addNormalToVertexs();
         }
-        
+
         // normalize vertex normals
         for(std::vector<Vertex3D>::iterator it = _vertexs.begin(); it != _vertexs.end(); it++) {
             it->_normal.normalize();

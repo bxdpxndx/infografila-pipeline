@@ -124,10 +124,10 @@ public:
         if(c.pixels)
         {
             pixels = new Color[width*height];
-            z_buffer = new float[width*height];           
+            z_buffer = new float[width*height];
             memcpy(pixels, c.pixels, width*height*sizeof(Color));
             memcpy(z_buffer, c.z_buffer, width * height * sizeof(float));
-            
+
         }
     }
 
@@ -146,7 +146,7 @@ public:
         if(c.pixels)
         {
             pixels = new Color[width*height*sizeof(Color)];
-            z_buffer = new float[width*height];           
+            z_buffer = new float[width*height];
             memcpy(pixels, c.pixels, width*height*sizeof(Color));
             memcpy(z_buffer, c.z_buffer, width * height * sizeof(float));
         }
@@ -183,7 +183,7 @@ public:
         return false;
     }
 
-    
+
     bool isInBounds(unsigned x, unsigned y) {
         return ( x >= 0 && x < width && y >= 0 && y < height);
     }

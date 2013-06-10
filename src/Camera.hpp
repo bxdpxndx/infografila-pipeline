@@ -110,8 +110,8 @@ public:
         c._lookAt = Vertex3D(x,y,z);
         c._nearPlane = 3;
         c._farPlane = 100;
-        c._cameraAperture = 1;       
-        c.calcVectors(); 
+        c._cameraAperture = 1;
+        c.calcVectors();
         return c;
     }
 

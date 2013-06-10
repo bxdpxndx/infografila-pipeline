@@ -28,6 +28,12 @@ public:
         }
     }
 
+    Matrix(const Matrix & other) {
+        for(int i=0; i < 16; i++) {
+            mat[i] = other.mat[i];
+        }
+    }
+
     static Matrix screenTransform(float width, float height) {
         Matrix m = identity();
 
@@ -73,19 +79,21 @@ public:
         return resultat;
     }
 
-    Vector3D operator*(const Vector3D &v) const {
-        Vector3D resultat;
-        float element;
-        for(int i=0; i<4; ++i) {
-            element = 0;
-            for(int j=0; j<4; ++j) {
-                element += this->getElement(i,j) * v.get(j);
-            }
-            resultat.set(element,i);
-        }
-        return resultat;
+    Matrix inverse() const {
+        Matrix m;
+        // nyeeeeeeeeeh
+        return m;
     }
 
+    void transpose() {
+        for (int i = 1; i < 4; i ++) {
+            for (int j = 1; j <= i; j ++) {
+                float tmp = getElement(i,j);
+                setElement(getElement(j,i),i,j);
+                setElement(tmp,j,i);
+            }
+        }
+    }
 
     Vertex3D operator*(const Vertex3D & v) const {
         Vertex3D resultat;
@@ -97,7 +105,8 @@ public:
             }
             resultat.set(element,i);
         }
-        resultat._normal = this * v._normal;
+        // FIXME: arreglar aixo
+        resultat._normal = v._normal;
         return resultat;
     }
 

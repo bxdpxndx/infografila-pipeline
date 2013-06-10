@@ -13,10 +13,10 @@
 #include "Poly_borders.hpp"
 #include "Utils.hpp"
 
-class FlatShader : public Shader{
+class FlatShader : public Shader {
 
 public:
-    void draw_polygon(Image & im, const Polygon & p, const Vector3D & light) const{
+    void draw_polygon(Image & im, const Polygon & p, const Vector3D & light) const {
 
         Poly_borders borders(p);
         float value = 0.2 + p.getNormal().dot_product(light);
@@ -38,7 +38,7 @@ public:
                 }
 
             }
-        }  
+        }
     }
 };
 

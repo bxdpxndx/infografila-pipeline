@@ -8,28 +8,28 @@
 #include "PhongShader.hpp"
 
 class ShaderGroup {
-    private:
-        std::map<std::string, Shader*> _shaders;
-        
-        ShaderGroup() {
-            _shaders["flat"] = new FlatShader();
-            _shaders["phong"] = new PhongShader();
-        }
+private:
+    std::map<std::string, Shader*> _shaders;
 
-        ~ShaderGroup() {
-            for (std::map<std::string, Shader*>::iterator it = _shaders.begin(); it != _shaders.end(); it++) {
-                delete it->second;
-            }
-        }
+    ShaderGroup() {
+        _shaders["flat"] = new FlatShader();
+        _shaders["phong"] = new PhongShader();
+    }
 
-    public:
-        Shader * getShader(std::string name) {
-            return _shaders[name];
+    ~ShaderGroup() {
+        for (std::map<std::string, Shader*>::iterator it = _shaders.begin(); it != _shaders.end(); it++) {
+            delete it->second;
         }
-        static ShaderGroup & instance() {
-            static ShaderGroup _instance;
-            return _instance;
-        }
+    }
+
+public:
+    Shader * getShader(std::string name) {
+        return _shaders[name];
+    }
+    static ShaderGroup & instance() {
+        static ShaderGroup _instance;
+        return _instance;
+    }
 };
 
 #endif
