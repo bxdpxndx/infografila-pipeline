@@ -5,13 +5,14 @@ import sys
 def convert_poly(poly_in):
     poly = poly_in.split()
     poly_out = [poly[0]]
-    poly_out.extend([str(int(x) + 1) for x in poly[1:]])
+    func = reversed if sys.argv[3] == 'true' else lambda x: x
+    poly_out.extend([str(int(x) + 1) for x in func(poly[1:])])
     poly_out.append('\n')
     return " ".join(poly_out)
 
 def main():
-    if len(sys.argv) != 3:
-        print("Bad arguments, usage: {} <input_file> <output_file>".format(sys.argv[0]))
+    if len(sys.argv) != 4:
+        print("Bad arguments, usage: {} <input_file> <output_file> <flipnormals?>".format(sys.argv[0]))
 
     try:
         inp = open(sys.argv[1])

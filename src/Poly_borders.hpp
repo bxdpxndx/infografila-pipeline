@@ -3,24 +3,13 @@
 
 #include "Polygon.hpp"
 #include "Utils.hpp"
+#include "Vector3D.hpp"
 
 class border_point {
     public:
         int x; // pixel position
         float z; // depth
-        border_point operator+(const border_point & other) {
-            border_point retval;
-            retval.x = x + other.x;
-            retval.z = z + other.z;
-            return retval;
-        }
-
-        border_point operator*(float value) {
-            border_point retval;
-            retval.x = x * value;
-            retval.z = z * value;
-            return retval;
-        }
+        Vector3D normal;
         bool operator<(const border_point & other) const{
             return x < other.x;
         }
@@ -41,12 +30,12 @@ class Poly_borders {
             _borders.resize(delta+1, std::vector<border_point>());
 
             for (Polygon::LineIterator it = p.lines_begin(); it != p.lines_end(); it++) {
-                
                 for (int i = (int) ((*it).start->y) + 1; i <= ((int) ((*it).end->y)); i++) {
                     float interp = reverse_interpolate((*it).start->y, (*it).end->y, i);
                     border_point current;
                     current.x = interpolate((*it).start->x, (*it).end->x, interp );
                     current.z = interpolate((*it).start->z, (*it).end->z, interp );
+                    current.normal = interpolate((*it).start->_normal, (*it).end->_normal, interp );
                     _borders[i - lowest].push_back(current);
                 }
             }   

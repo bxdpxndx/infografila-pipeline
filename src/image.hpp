@@ -31,6 +31,12 @@ public:
     Color() {
         r = g = b = 0.0;
     }
+
+    Color (float v) {
+        this->r = v;
+        this->g = v;
+        this->b = v;
+    }
     Color(float r, float g, float b) {
         this->r = r;
         this->g = g;

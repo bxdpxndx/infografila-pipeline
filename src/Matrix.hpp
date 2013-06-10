@@ -73,11 +73,8 @@ public:
         return resultat;
     }
 
-    // així permetem fer servir tant Vector3D com Vertex3D
-
-    template <class T>
-    T operator*(const T &v) const {
-        T resultat;
+    Vector3D operator*(const Vector3D &v) const {
+        Vector3D resultat;
         float element;
         for(int i=0; i<4; ++i) {
             element = 0;
@@ -86,6 +83,21 @@ public:
             }
             resultat.set(element,i);
         }
+        return resultat;
+    }
+
+
+    Vertex3D operator*(const Vertex3D & v) const {
+        Vertex3D resultat;
+        float element;
+        for(int i=0; i<4; ++i) {
+            element = 0;
+            for(int j=0; j<4; ++j) {
+                element += this->getElement(i,j) * v.get(j);
+            }
+            resultat.set(element,i);
+        }
+        resultat._normal = this * v._normal;
         return resultat;
     }
 

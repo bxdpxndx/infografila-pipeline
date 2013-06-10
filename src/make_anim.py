@@ -10,7 +10,7 @@ os.makedirs('tmp')
 try:
 
     for cam in cameras:
-        call = ['./renderer', sys.argv[1], os.path.join('camera',cam), os.path.join('tmp', "".join(['view', cam[:-4], '.tga']))]
+        call = ['./renderer', sys.argv[1], os.path.join('camera',cam), os.path.join('tmp', "".join(['view', cam[:-4], '.tga'])), '1000', '1000']
         print (" ".join(call))
         subprocess.call(call)
 

@@ -12,8 +12,8 @@ class ShaderGroup {
         std::map<std::string, Shader*> _shaders;
         
         ShaderGroup() {
-            _shaders["phong"] = new PhongShader();
             _shaders["flat"] = new FlatShader();
+            _shaders["phong"] = new PhongShader();
         }
 
         ~ShaderGroup() {

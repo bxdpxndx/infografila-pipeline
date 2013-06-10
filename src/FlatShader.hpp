@@ -19,14 +19,8 @@ public:
     void draw_polygon(Image & im, const Polygon & p, const Vector3D & light) const{
 
         Poly_borders borders(p);
-        float value = p.getNormal().dot_product(light);
-        if (value > 0) {
-            value += 0.2;
-        }
-        else {
-            value = 0.2;
-        }
-        Color color(value,value,value);
+        float value = 0.2 + p.getNormal().dot_product(light);
+        Color color(value);
 
         int lowest = p.get_lowest_point();
         // get the edges.

@@ -51,7 +51,6 @@ private:
 
         Color white(1, 1, 1);
         for(;;) {
-            //std::cout << "  setting pixel " << x0 << " " << y0 << std::endl;
             if ( x0 < 0 || x0 >= _width || y0 < 0 || y0 >= _height ) {
                 ;
             }
@@ -83,7 +82,6 @@ private:
 
     void draw_object(const Object3D & o) {
         for (std::vector<Polygon>::const_iterator it = o._polygons.begin(); it != o._polygons.end(); it ++) {
-
             // Backface culling!
             if ( it->getNormal().dot_product(Vector3D(0, 0, 1)) > 0) {
                 draw_polygon(*it);
@@ -95,10 +93,11 @@ private:
 
 public:
     Render(int width, int height) : _width(width), _height(height), _image(width, height) {
-        _shader = ShaderGroup::instance().getShader("flat");
+        _shader = ShaderGroup::instance().getShader("phong");
     };
 
     void draw () {
+
 
         _world->apply_camera_transform();
         _world->recalculate_normals();

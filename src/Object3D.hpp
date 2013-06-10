@@ -54,7 +54,6 @@ public:
             assert(p.is_valid());
             obj->_polygons.push_back(p);
         }
-        obj->calculateAllNormals();
         std::cout << "Cargados " << nvertexs << " vértices y " << npolys << " polígonos." << std::endl;
         return obj;
     }
@@ -62,21 +61,41 @@ public:
     void apply_matrix_transform(const Matrix & matrix) {
         for(std::vector<Vertex3D>::iterator it = _vertexs.begin(); it != _vertexs.end(); it++) {
             *it = matrix * (*it);
+            
             it->project();
         }
     }
 
     void calculateAllNormals() {
+        // reset vertex normals
         for(std::vector<Vertex3D>::iterator it = _vertexs.begin(); it != _vertexs.end(); it++) {
             it->_normal = Vector3D(0, 0, 0);
         }
 
+        // calc poly normals and add them to vertex normals
         for (std::vector<Polygon>::iterator it = _polygons.begin(); it != _polygons.end(); it++) {
             it->NormalV();
             it->addNormalToVertexs();
         }
+        
+        // normalize vertex normals
+        for(std::vector<Vertex3D>::iterator it = _vertexs.begin(); it != _vertexs.end(); it++) {
+            it->_normal.normalize();
+        }
     }
+
+    friend std::ostream & operator<<(std::ostream & os, const Object3D &o);
+
 };
+
+std::ostream & operator<<(std::ostream & os, const Object3D &o) {
+    os << "Object" << std::endl;
+    for (std::vector<Polygon>::const_iterator it = o._polygons.begin(); it != o._polygons.end(); it++) {
+        os << *it << std::endl;
+    }
+    return os;
+}
+
 
 #endif // Object3D_hpp
 

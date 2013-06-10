@@ -50,7 +50,7 @@ public:
 
 std::ostream & operator<<(std::ostream &os, const Vertex3D & v)
 {
-    os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+    os << "(" << v.x << ", " << v.y << ", " << v.z << "), N:" << v._normal;
     return os;
 }
 
