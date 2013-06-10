@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
     Object3D * obj = Object3D::from_file(input_file);
     w.add_object(obj);
 
-// TODO: Implementar Light y Camera :3
-    Vector3D light = Vector3D(-1, -1, -1).normalize();
+    
+    Vector3D light = Vector3D(-1, -1, 1).normalize();
     Camera camera = Camera::from_file(cam_file);
 
     w.set_light(light);

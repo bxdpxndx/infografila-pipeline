@@ -85,7 +85,7 @@ public:
         //Calculo vectores P y Q que unen los
         //vertices V1V2V3 de un triangulo.
         Vector3D P,Q;
-        P = *_vertexs[1] - *_vertexs[0];
+        P = *_vertexs[0] - *_vertexs[1];
         Q = *_vertexs[1] - *_vertexs[2];
 
         //Vector normal es perpendicular a los vectores P y Q

@@ -17,29 +17,32 @@ class FlatShader : public Shader{
 
 public:
     void draw_polygon(Image & im, const Polygon & p, const Vector3D & light) const{
-        int lowest = p.get_lowest_point();
-        int highest = p.get_highest_point();
-        int delta = highest-lowest;
-        std::vector<std::vector<int> > borders(delta+1, std::vector<int>());
 
-        float value = 0.2 - p.getNormal().dot_product(light);
+        Poly_borders borders(p);
+        float value = p.getNormal().dot_product(light);
+        if (value > 0) {
+            value += 0.2;
+        }
+        else {
+            value = 0.2;
+        }
         Color color(value,value,value);
 
+        int lowest = p.get_lowest_point();
         // get the edges.
-        for (Polygon::LineIterator it = p.lines_begin(); it != p.lines_end(); it++) {
-            float steepness = (*it).getStepness();
-
-            for (int i = (int) ((*it).start->y) + 1; i <= ((int) ((*it).end->y)); i++) {
-                borders[i - lowest].push_back( (*it).start->x + (steepness * (i - (*it).start->y) - 1));
-            }
-        }
         // sort the edges and fill.
-        for (unsigned i = 0; i < borders.size(); i++) {
-            std::sort(borders[i].begin(), borders[i].end());
-            for (unsigned j = 0; j < borders[i].size()/2; j++) {
-                for(int k = borders[i][j]; k < borders[i][j+1]; k++) {
-                    im.setPixel(color, k , i + lowest);
+        for (unsigned i = 0; i < borders.size(); i++) { // foreach scanline
+            for (unsigned j = 0; j < borders[i].size()/2; j++) { // foreach pair in scanline
+                border_point start = borders[i][j];
+                border_point end = borders[i][j+1];
+                for(int k = start.x; k < end.x; k++) { // foreach pixel in the painted region
+                    if(im.isInBounds(k, i+ lowest)) {
+                        float interp = reverse_interpolate(start.x, end.x, k);
+                        float depth = interpolate(start.z, end.z, interp);
+                        im.setPixelWithDepthTest(color, k , i + lowest, depth - 2.0);
+                    }
                 }
+
             }
         }  
     }

@@ -109,7 +109,7 @@ public:
         fe >> x >> y >> z;
         c._lookAt = Vertex3D(x,y,z);
         c._nearPlane = 3;
-        c._farPlane = 20;
+        c._farPlane = 100;
         c._cameraAperture = 1;       
         c.calcVectors(); 
         return c;
