@@ -19,8 +19,12 @@ public:
     void draw_polygon(Image & im, const Polygon & p, const Vector3D & light) const {
 
         Poly_borders borders(p);
-        float value = 0.2 + p.getNormal().dot_product(light);
-        Color color(value);
+
+        float ambient = 0.2;
+        float diffuse = 0.8*p.getNormal().dot_product(light);
+
+        float intensity = ambient + diffuse;
+        Color color(intensity);
 
         int lowest = p.get_lowest_point();
         // get the edges.
@@ -33,7 +37,7 @@ public:
                     if(im.isInBounds(k, i+ lowest)) {
                         float interp = reverse_interpolate(start.x, end.x, k);
                         float depth = interpolate(start.z, end.z, interp);
-                        im.setPixelWithDepthTest(color, k , i + lowest, depth - 2.0);
+                        im.setPixelWithDepthTest(color, k , i + lowest, depth - 10.0);
                     }
                 }
 

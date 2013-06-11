@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <fstream>
 
 #include "Vertex3D.hpp"
 #include "Vector3D.hpp"
@@ -109,8 +110,8 @@ public:
         fe >> x >> y >> z;
         c._lookAt = Vertex3D(x,y,z);
         c._nearPlane = 3;
-        c._farPlane = 100;
-        c._cameraAperture = 1;
+        c._farPlane = 6;
+        c._cameraAperture = 0.5;
         c.calcVectors();
         return c;
     }
@@ -134,7 +135,7 @@ public:
         float depth = _farPlane - _nearPlane;
         projection.setElement(persp1, 0, 0);
         projection.setElement(persp1, 1, 1);
-        projection.setElement(_farPlane/depth, 2, 2);
+        projection.setElement(2*_farPlane/depth, 2, 2);
         projection.setElement((_nearPlane*_farPlane*(-1))/depth, 2, 3);
         projection.setElement(1, 3, 2);
         return projection;

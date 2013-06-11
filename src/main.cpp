@@ -34,15 +34,21 @@ int main(int argc, char *argv[])
         std::stringstream(argv[5]) >> height;
     }
 
-
     World w;
 
     Object3D * obj = Object3D::from_file(input_file);
     w.add_object(obj);
 
 
-    Vector3D light = Vector3D(-1, -1, 1).normalize();
-    Camera camera = Camera::from_file(cam_file);
+    Vector3D light = Vector3D(0, 0, 1).normalize();
+    Camera camera;
+    try {
+        camera = Camera::from_file(cam_file);
+    }
+    catch(FileNotFoundException &e) {
+        camera.position(0, 0, -3);
+        camera.lookAt(0, 0, 0);
+    }
 
     w.set_light(light);
     w.set_camera(camera);
@@ -51,7 +57,7 @@ int main(int argc, char *argv[])
     std::cout << "Drawing image to the buffer..." << std::endl;
     r.setWorld(&w);
     r.draw();
-    std::cout << "Savingimage to file..." << std::endl;
+    std::cout << "Saving image to file..." << std::endl;
     r.saveTGA(output_file);
 
 }

@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-g -O2 -std=c++03 -Wall -Werror
+CFLAGS=-O2 -std=c++03 -Wall -Werror
 
 all: renderer
 
